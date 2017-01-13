@@ -6,25 +6,20 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class MyStack
+    class MyStack:Buffer
     {
-        //  private List<int> stack = new List<int> { };
-
         private int?[] stack;
 
-        private bool _IsEmpty;
-        public bool IsEmpty
+        public override bool IsEmpty
         {
             get { CheckStack(); return _IsEmpty; }
         }
 
-        private bool _IsFull;
-        public bool IsFull
+        public override bool IsFull
         {
             get { CheckStack(); return _IsFull; }
         }
 
-        // private int maxCount = 10;
         private int Size;
 
         public MyStack(int Size)

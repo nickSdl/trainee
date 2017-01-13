@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class MyQueue
+    class MyQueue:Buffer
     {
-        //private static int maxCount = 10;
-
         private int Size;
-
-        //private int?[] queue = new int?[maxCount];
 
         private int?[] queue;
 
@@ -21,18 +17,15 @@ namespace basic_trainings
         private int _Tail = -1; //become 0 after insertion of first element при добавлении 1го элемента станет 0, что и будет индексом первого элемента
                                 //_Tail should be less than _Head on 1
 
-        private bool _IsEmpty;
-        public bool IsEmpty
+        public override bool IsEmpty
         {
             get { CheckQueue(); return _IsEmpty; }
         }
 
-        private bool _IsFull;
-        public bool IsFull
+        public override bool IsFull
         {
             get { CheckQueue(); return _IsFull; }
         }
-
 
 
         public MyQueue(int Size)
