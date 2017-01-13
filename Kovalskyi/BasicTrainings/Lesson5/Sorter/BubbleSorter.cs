@@ -2,28 +2,20 @@
 
 namespace Lesson5.Sorter
 {
-	public class BubbleSorter : SorterBase
+	public class BubbleSorter<T> : SorterBase<T> where T : IComparable
 	{
-		public BubbleSorter(int[] array)
+		public BubbleSorter(T[] array)
 		{
 			this.array = array;
 		}
-
-		private void Swap(int firstIndex, int secondIndex)
-		{
-			int temp;
-			temp = array[firstIndex];
-			array[firstIndex] = array[secondIndex];
-			array[secondIndex] = temp;
-		}
-
+		
 		public override void Sort()
 		{
 			for (int i = 0; i < array.Length - 1; i++)
 			{
 				for (int j = i + 1; j < array.Length; j++)
 				{
-					if (array[i] > array[j])
+					if (array[i].CompareTo(array[j]) == 1)
 					{
 						Swap(i, j);
 					}

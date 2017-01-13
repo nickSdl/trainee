@@ -1,40 +1,53 @@
 ﻿using System;
+using Lesson5.Interfaces;
 
 namespace Lesson5.Buffer
 {
-	public class MyQueue : Buffer
+	public class MyQueue<T> : Buffer<T>, IMyQueue<T>
 	{
 		private int head = 0;
 		private int tail = 0;
-		private int[] arr;
 		private int maxLength;
 
 		public MyQueue(int length)
 		{
 			this.maxLength = length + 1;
-			this.arr = new int[length];
+			this.array = new T[length];
 		}
 
-		public void Enqueue(int item)
+		public void Enqueue(T item)
 		{
 			if (IsFull())
 			{
 				throw new Exception("Queue is full.");
 			}
-			arr[tail] = item;
+			array[tail] = item;
 			tail = (tail + 1) % maxLength;
 		}
 
-		public int Dequeue()
+		public T Dequeue()
 		{
 			if (IsEmpty())
 			{
 				throw new Exception("Queue is empty.");
 			}
-			int firstInQueue = arr[head];
-			arr[head] = 0;
+			T firstInQueue = array[head];
+			array[head] = default(T);
 			head = (head + 1) % maxLength;
 			return firstInQueue;
+		}
+
+		public override T Peek()
+		{
+			if (IsEmpty())
+			{
+				throw new InvalidOperationException("Queue is empty.");
+			}
+			else
+			{
+				T lastItem = base.array[head];
+				return lastItem;
+			}
 		}
 
 		public override bool IsEmpty()

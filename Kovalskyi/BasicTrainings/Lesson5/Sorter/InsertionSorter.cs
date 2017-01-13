@@ -2,19 +2,11 @@
 
 namespace Lesson5.Sorter
 {
-	public class InsertionSorter : SorterBase
+	public class InsertionSorter<T> : SorterBase<T> where T: IComparable
 	{
-		public InsertionSorter(int[] array)
+		public InsertionSorter(T[] array)
 		{
 			this.array = array;
-		}
-
-		private void Swap(int firstIndex, int secondIndex)
-		{
-			int temp;
-			temp = array[firstIndex];
-			array[firstIndex] = array[secondIndex];
-			array[secondIndex] = temp;
 		}
 
 		public override void Sort()
@@ -22,7 +14,7 @@ namespace Lesson5.Sorter
 			for (int i = 1; i < array.Length; i++)
 			{
 				int j = i;
-				while ((j > 0) && (array[j] < array[j - 1]))
+				while ((j > 0) && (array[j].CompareTo(array[j - 1])) == 1)
 				{
 					int k = j - 1;
 					Swap(k, j);

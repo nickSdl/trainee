@@ -1,16 +1,25 @@
 ﻿using System;
+using Lesson5.Interfaces;
 
 namespace Lesson5.Sorter
 {
-	public abstract class SorterBase
+	public abstract class SorterBase<T> : ISorter<T>
 	{
-		protected int[] array;
+		protected T[] array;
+
+		protected  virtual void Swap(int firstIndex, int secondIndex)
+		{
+			T temp;
+			temp = array[firstIndex];
+			array[firstIndex] = array[secondIndex];
+			array[secondIndex] = temp;
+		}
 
 		public abstract void Sort();
 		
 		public virtual void Print()
 		{
-			foreach (int item in array)
+			foreach (T item in array)
 			{
 				Console.WriteLine(item);
 			}

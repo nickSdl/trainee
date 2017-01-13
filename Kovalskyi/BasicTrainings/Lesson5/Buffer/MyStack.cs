@@ -1,15 +1,15 @@
 ﻿using System;
+using Lesson5.Interfaces;
 
 namespace Lesson5.Buffer
 {
-	public class MyStack : Buffer
+	public class MyStack<T> : Buffer<T>, IMyStack<T>
 	{
-		private int[] array;
 		private int arrayLength;
 
 		private void ArrayResize(int step)
 		{
-			int[] temp = new int[array.Length + step];
+			T[] temp = new T[array.Length + step];
 			for (int i = 0; i < array.Length; i++)
 			{
 				temp[i] = array[i];
@@ -34,7 +34,7 @@ namespace Lesson5.Buffer
 			}
 		}
 
-		public int Pop()
+		public T Pop()
 		{
 			if (IsEmpty())
 			{
@@ -42,13 +42,13 @@ namespace Lesson5.Buffer
 			}
 			else
 			{
-				int lastItem = array[array.Length - 1];
+				T lastItem = array[array.Length - 1];
 				ArrayResize(-1);
 				return lastItem;
 			}
 		}
 
-		public void Push(int item)
+		public void Push(T item)
 		{
 			if (IsFull())
 			{
@@ -56,7 +56,7 @@ namespace Lesson5.Buffer
 			}
 			else if (IsEmpty())
 			{
-				array = new int[] { item };
+				array = new T[] { item };
 			}
 			else
 			{
@@ -65,7 +65,7 @@ namespace Lesson5.Buffer
 			}
 		}
 
-		public int Peek()
+		public override T Peek()
 		{
 			if (IsEmpty())
 			{
@@ -73,7 +73,7 @@ namespace Lesson5.Buffer
 			}
 			else
 			{
-				int lastItem = array[array.Length - 1];
+				T lastItem = array[array.Length - 1];
 				return lastItem;
 			}
 		}
