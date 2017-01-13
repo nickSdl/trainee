@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lesson5
+namespace Lesson5.Buffer
 {
-	public class MyStack
+	public class MyStack : Buffer
 	{
 		private int[] array;
 		private int arrayLength;
@@ -38,7 +38,7 @@ namespace Lesson5
 		{
 			if (IsEmpty())
 			{
-				throw new InvalidOperationException();
+				throw new InvalidOperationException("Stack is empty.");
 			}
 			else
 			{
@@ -52,7 +52,7 @@ namespace Lesson5
 		{
 			if (IsFull())
 			{
-				throw new InvalidOperationException();
+				throw new InvalidOperationException("Stack is full.");
 			}
 			else if (IsEmpty())
 			{
@@ -65,31 +65,31 @@ namespace Lesson5
 			}
 		}
 
-		public bool IsEmpty()
-		{
-			return (array == null);
-		}
-
-		public bool IsFull()
-		{
-			if (IsEmpty())
-			{
-				return false;
-			}
-			return (arrayLength == array.Length);
-		}
-
 		public int Peek()
 		{
 			if (IsEmpty())
 			{
-				throw new InvalidOperationException();
+				throw new InvalidOperationException("Stack is empty.");
 			}
 			else
 			{
 				int lastItem = array[array.Length - 1];
 				return lastItem;
 			}
+		}
+
+		public override bool IsEmpty()
+		{
+			return (array == null);
+		}
+
+		public override bool IsFull()
+		{
+			if (IsEmpty())
+			{
+				return false;
+			}
+			return (arrayLength == array.Length);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lesson5
+namespace Lesson5.Buffer
 {
-	public class MyQueue
+	public class MyQueue : Buffer
 	{
 		private int head = 0;
 		private int tail = 0;
@@ -37,12 +37,12 @@ namespace Lesson5
 			return firstInQueue;
 		}
 
-		public bool IsEmpty()
+		public override bool IsEmpty()
 		{
 			return (head == tail);
 		}
 
-		public bool IsFull()
+		public override bool IsFull()
 		{
 			return (head == (tail + 1) % maxLength);
 		}

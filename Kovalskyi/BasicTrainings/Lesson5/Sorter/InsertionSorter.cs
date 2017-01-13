@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace Lesson5
+namespace Lesson5.Sorter
 {
-	public class InsertionSorter
+	public class InsertionSorter : SorterBase
 	{
-		private int[] array;
-
 		public InsertionSorter(int[] array)
 		{
 			this.array = array;
@@ -19,7 +17,7 @@ namespace Lesson5
 			array[secondIndex] = temp;
 		}
 
-		public void Sort()
+		public override void Sort()
 		{
 			for (int i = 1; i < array.Length; i++)
 			{
@@ -30,14 +28,6 @@ namespace Lesson5
 					Swap(k, j);
 					j--;
 				}
-			}
-		}
-
-		public void Print()
-		{
-			foreach (int item in array)
-			{
-				Console.WriteLine(item);
 			}
 		}
 	}

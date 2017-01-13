@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace Lesson5
+namespace Lesson5.Sorter
 {
-	public class BubbleSorter
+	public class BubbleSorter : SorterBase
 	{
-		private int[] array;
-
 		public BubbleSorter(int[] array)
 		{
 			this.array = array;
@@ -19,7 +17,7 @@ namespace Lesson5
 			array[secondIndex] = temp;
 		}
 
-		public void Sort()
+		public override void Sort()
 		{
 			for (int i = 0; i < array.Length - 1; i++)
 			{
@@ -30,14 +28,6 @@ namespace Lesson5
 						Swap(i, j);
 					}
 				}
-			}
-		}
-
-		public void Print()
-		{
-			foreach (int item in array)
-			{
-				Console.WriteLine(item);
 			}
 		}
 	}
