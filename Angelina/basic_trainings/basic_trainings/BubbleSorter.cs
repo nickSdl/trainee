@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class BubbleSorter : Sorter
+    class BubbleSorter<T> : Sorter<T> where T : IComparable
     {
-        public BubbleSorter(int[] array) : base(array)
+        public BubbleSorter(T[] array) : base(array)
         { }
 
         public override void Sort()
@@ -17,7 +17,7 @@ namespace basic_trainings
             {
                 for (int i = 0; i < array.Length; i++)
                     for (int j = array.Length - 1; j > i; j--)
-                        if (array[j] < array[j - 1])
+                        if (array[j].CompareTo(array[j - 1]) < 0)//class can has it's own realization of method CompareTo()                       
                         {
                             Swap(ref array, j, j - 1);
                         }

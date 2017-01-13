@@ -6,61 +6,57 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class MyQueue:Buffer
+    //class MyQueue:Buffer
+    class MyQueue<T> : IBuffer<T> where T: IComparable
     {
         private int Size;
 
-        private int?[] queue;
+        private T[] queue;
 
         private int _Head = 0;  //index of first insert value
 
-        private int _Tail = -1; //become 0 after insertion of first element при добавлении 1го элемента станет 0, что и будет индексом первого элемента
-                                //_Tail should be less than _Head on 1
+        private int _Tail = 0; 
 
-        public override bool IsEmpty
+        public bool IsEmpty()
         {
-            get { CheckQueue(); return _IsEmpty; }
+            foreach (T value in queue)
+            {
+                if (!value.Equals(default(T)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
-        public override bool IsFull
+        public bool IsFull()
         {
-            get { CheckQueue(); return _IsFull; }
+            foreach (T value in queue)
+            {
+                if (value.Equals(default(T)))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
-
-
+        
         public MyQueue(int Size)
         {
             this.Size = Size;
-            queue = new int?[Size];
+            queue = new T[Size];
         }
 
-        private void CheckQueue()
+        public void Enqueue(T value)
         {
-            _IsEmpty = true;
-            _IsFull = true;
-
-            foreach (int? value in queue)
-            {
-                if (value != null)
-                {
-                    _IsEmpty = false;
-                }
-                else
-                {
-                    _IsFull = false;
-                }
-            }
-        }
-
-        public void Enqueue(int value)
-        {    
-                  
-            if ((_Head == Size - 1) && (queue[_Head] == null))
+           // if ((_Head == Size - 1) && (queue[_Head] == default(T)))
+            if ((_Head == Size - 1) && (queue[_Head].Equals(default(T))))
             {
                 queue[_Head] = value;
                 _Head = 0;
             }
-            else if (queue[_Head] != null)
+            else if (!queue[_Head].Equals(default(T)))
             {
                 Console.WriteLine("Can't enqueue, queue is full");
             }
@@ -69,28 +65,24 @@ namespace basic_trainings
                 queue[_Head] = value;
                 _Head++;
             }
-
+/*
             if (_Tail == -1)
             {
                 _Tail++;
-            }
-
-               
-
-            
+            }*/
         }
 
-        public int? Dequeue()
+        public T Dequeue()
         {
-            if (_Tail == -1 || queue[_Tail] == null)
+            if (IsEmpty())//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             {
-                Console.Write("Can't_dequeue:Queue_is_empty");
-                return null;
+                Console.WriteLine("Can't_dequeue:Queue_is_empty");
+                return default(T);
             }
             else
             {
-                int? value = queue[_Tail];
-                queue[_Tail] = null;
+                T value = queue[_Tail];
+                queue[_Tail] = default(T);
                 if (_Tail == Size - 1)
                 {
                     _Tail = 0;
@@ -101,6 +93,30 @@ namespace basic_trainings
                 }
 
                 return value;
+            }
+        }
+
+        public void Print()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        {
+            if (!IsEmpty())
+            {
+                Console.WriteLine("\nQueue:");
+            
+                for (int i = _Tail; i != _Head; i++)
+                {
+                    Console.Write("{0}  ", queue[i]);
+
+                    if (i == Size - 1)
+                    {
+                        i = -1;
+                    }
+                }
+                Console.Write("\n\n");
+            }
+            else
+            {
+                Console.WriteLine("Can't dequeue: Queue is empty");
+
             }
         }
     }

@@ -6,39 +6,60 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class MyStack:Buffer
+    //class MyStack:Buffer
+    class MyStack<T> : IBuffer<T> where T : IComparable
+
     {
-        private int?[] stack;
-
-        public override bool IsEmpty
-        {
-            get { CheckStack(); return _IsEmpty; }
-        }
-
-        public override bool IsFull
-        {
-            get { CheckStack(); return _IsFull; }
-        }
-
+        private T[] stack;
+        
         private int Size;
 
         public MyStack(int Size)
         {
-            stack = new int?[Size];
+            stack = new T[Size];
             this.Size = Size;
-        }
+        }        
 
-        private void CheckStack()
+        public bool IsEmpty()
         {
-            _IsEmpty = (stack[0] == null) ? true : false;
-            _IsFull = (stack[stack.Length-1] != null) ? true : false;
-
+            if (stack[0].Equals(default(T)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void Push(int value)
+        public bool IsFull()
+        {
+            if (!stack[stack.Length - 1].Equals(default(T)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Print()
+        {
+            Console.WriteLine("\nStack:");
+            foreach (T value in stack)
+            {
+                if (!value.Equals(default(T)))
+                {
+                    Console.Write("{0}  ", value);
+                }
+            }
+            Console.Write("\n\n");
+        }
+
+        public void Push(T value)
         {           
-               // stack.Insert(stack.Count, value);
-            if(stack[stack.Length-1]!=null)
+            if(IsFull())
             {
                 Console.WriteLine("Can't_push:Stack_is_full");
             }            
@@ -46,7 +67,7 @@ namespace basic_trainings
             {
                 for (int i = stack.Length - 2; i >= 0; i--)
                 {
-                    if(stack[i]!=null)
+                    if(!stack[i].Equals(default(T)))
                     {
                         stack[i + 1] = stack[i];
                     }
@@ -55,31 +76,35 @@ namespace basic_trainings
             }
         }
 
-        public int? Pop()
+        public T Pop()
         {
-            if (stack[0] == null)
+            if (IsEmpty())
             {
-                Console.Write("Can't_pop:Stack_is_empty");
-                return null;
+                 Console.WriteLine("Can't_dequeue:Queue_is_empty");
+                 return default(T);
+               
+                   // throw new Exception("Can't_dequeue:Queue_is_empty");
+                          
             }
             else
             {
-                int? value = stack[0];
+                T value = stack[0];
                 for (int i=0; i<stack.Length-1; i++)
                 {
-                    if (stack[i + 1] != null)
+                    if (!stack[i + 1].Equals(default(T)))
                     {
                         stack[i] = stack[i + 1];
                     }
                     else// (stack[i+1] == null)
                     {
-                        stack[i] = null;
+                        stack[i] = default(T);
                     }                     
                     
                 }
-                if (stack[stack.Length-1] != null)
+
+                if (!stack[stack.Length-1].Equals(default(T)))
                 {
-                    stack[stack.Length - 1] = null;
+                    stack[stack.Length - 1] = default(T);
                 }
 
                 Console.Write("Pop: ");
@@ -88,12 +113,12 @@ namespace basic_trainings
 
         }
 
-        public int? Peek()
+        public T Peek()
         {
-            if (stack[0] == null)
+            if (IsEmpty())
             {
-                Console.Write("Stack_is_empty");
-                return null;
+                Console.WriteLine("Can't_dequeue:Queue_is_empty");
+                return default(T);
             }
             else
             {

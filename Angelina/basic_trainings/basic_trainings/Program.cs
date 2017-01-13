@@ -10,24 +10,48 @@ namespace basic_trainings
     {
         static void Main(string[] args)
         {
-            
-            int[] array = new int[] { 6, 6, 99, 56, 58, 4, 3, 98, 5, 17, 45, 89 };
 
+            int[] array = new int[] { 6, 6, 99, 56, 58, 4, 3, 98, 5, 17, 45, 89 };
+            //char[] array = new char[] { 'g', 'e', 'y', 'l', 'u', 'r', 'h', 'q', 'w' };
             Console.WriteLine("Initial array:");
+            //Array.Sort(array);
             foreach (int value in array)
             {
                 Console.Write("{0}  ", value);
             }
             Console.Write("\n");
 
+            //Type t = array.GetType(); 
+            // Type t = (array.GetType())t;
+
+            Console.WriteLine("\nPeople:");
+            Human[] people =               
+                {
+                new Human("John", 61 ),
+                new Human("Peter", 43 ),
+                new Human("Kate", 45 ),
+                new Human("Anna", 18 )
+            };
+
+            foreach(Human h in people)
+            {
+                h.Print();
+            }
+            Array.Sort(people);
+            Console.WriteLine("\nPeople after sort:");
+
+            foreach (Human h in people)
+            {
+                h.Print();
+            }
             Console.WriteLine("\nBubble Sort:");
-            BubbleSorter bsort = new BubbleSorter(array);
+            BubbleSorter<int> bsort = new BubbleSorter<int>(array);
             bsort.Print();
             bsort.Sort();
             bsort.Print();
 
             Console.WriteLine("\nInsertion Sort:");
-            InsertionSorter insort = new InsertionSorter(array);
+            InsertionSorter<int> insort = new InsertionSorter<int>(array);
             insort.Print();
             insort.Sort();
             insort.Print();                     
@@ -35,9 +59,9 @@ namespace basic_trainings
 
             //stack
             Console.WriteLine("\n\n STACK:\n");
-            MyStack mystack = new MyStack(10);
+            MyStack<int> mystack = new MyStack<int>(10);
 
-            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty);
+            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
             mystack.Push(1);
             mystack.Push(2);
             mystack.Push(3);
@@ -51,11 +75,12 @@ namespace basic_trainings
             mystack.Push(11);
             mystack.Push(12);
             mystack.Push(13);
+            mystack.Print();
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Peek());
             Console.WriteLine(mystack.Pop());
-            Console.WriteLine("Stack is full: {0}", mystack.IsFull);
-            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty);
+            Console.WriteLine("Stack is full: {0}", mystack.IsFull());
+            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Pop());
@@ -72,10 +97,10 @@ namespace basic_trainings
             
             //queue
             Console.WriteLine("\n\n CIRCULAR QUEUE:\n");
-            MyQueue myqueue = new MyQueue(10);
+            MyQueue<int> myqueue = new MyQueue<int>(10);
 
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull);
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty);
+            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
             Console.WriteLine(myqueue.Dequeue());
 
             myqueue.Enqueue(1);
@@ -86,30 +111,31 @@ namespace basic_trainings
             myqueue.Enqueue(6);
             myqueue.Enqueue(7);
             myqueue.Enqueue(8);
+            myqueue.Print();
             myqueue.Enqueue(9);
             myqueue.Enqueue(10);
             Console.WriteLine(myqueue.Dequeue());
             myqueue.Enqueue(11);
             myqueue.Enqueue(12);
 
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull);
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty);
+            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull);
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty);
+            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull);
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty);         
+            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());         
             
 
             Console.ReadLine();
