@@ -43,12 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BubbleSorter.cs" />
-    <Compile Include="InsertionSorter.cs" />
-    <Compile Include="MyQueue.cs" />
-    <Compile Include="MyStack.cs" />
+    <Compile Include="Interfaces\IBuffer.cs" />
+    <Compile Include="Interfaces\IMyQueue.cs" />
+    <Compile Include="Interfaces\IMyStack.cs" />
+    <Compile Include="Interfaces\IPrintable.cs" />
+    <Compile Include="Interfaces\ISorter.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="Sorter\BubbleSorter.cs" />
+    <Compile Include="Buffer\Buffer.cs" />
+    <Compile Include="Sorter\InsertionSorter.cs" />
+    <Compile Include="Buffer\MyQueue.cs" />
+    <Compile Include="Buffer\MyStack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sorter\SorterBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
