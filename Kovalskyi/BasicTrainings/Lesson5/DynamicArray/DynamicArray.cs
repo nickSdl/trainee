@@ -4,7 +4,9 @@ namespace Lesson5.DynamicArray
 {
 	public class DynamicArray<T>
 	{
+		const int SIZE_COEFFICIENT = 2;
 		private T[] array;
+		private int maxSize;
 		public int Capacity { get; private set; }
 		public int Size { get; private set; }
 
@@ -13,60 +15,71 @@ namespace Lesson5.DynamicArray
 			return (array == null);
 		}
 
-		private void ArrayResize(int step)
+		private void ArrayResize(int size)
 		{
-			T[] temp = new T[array.Length + step];
+			size *= SIZE_COEFFICIENT;
+			T[] temp = new T[size];
 			for (int i = 0; i < array.Length; i++)
 			{
 				temp[i] = array[i];
 			}
 			array = temp;
 		}
-		
-		public DynamicArray(int capacity)
+
+		public DynamicArray(int capacity) : this(capacity, Int32.MaxValue / 2)
+		{
+			
+		}
+
+		public DynamicArray(int capacity, int maxSize) 
 		{
 			this.Capacity = capacity;
 			array = new T[capacity];
+			this.maxSize = maxSize;
 		}
 		
 		public void Add(T item)
 		{
-			if (Size < Capacity)
+			if (Size == maxSize)
 			{
-				array[Size] = item;
-				Size++;
+				throw new Exception("List is full.");
 			}
-			else if(Size == Capacity)
+			if (Size == Capacity)
 			{
-				Capacity *= 2;
 				ArrayResize(Capacity);
-				array[Size] = item;
-				Size++;
 			}
-			
+			array[Size] = item;
+			Size++;
 		}
+
 		public void Insert(int position, T item)
 		{
+			if (Size == maxSize)
+			{
+				throw new Exception("List is full.");
+			}
 			if (IsEmpty())
 			{
 				throw new NullReferenceException("List is Empty.");
 			}
-			else if (position > Size)
+			if (position > Size)
 			{
 				throw new NullReferenceException("Position doesn't exist.");
 			}
-			else
+			else if (Size == Capacity)
 			{
-				int temp = Size;
-				while (temp != position)
-				{
-					array[temp] = array[temp - 1];
-					temp--;
-				}
-				array[position] = item;
-				Size++;
+				ArrayResize(Capacity);
 			}
+			int temp = Size;
+			while (temp != position)
+			{
+				array[temp] = array[temp - 1];
+				temp--;
+			}
+			array[position] = item;
+			Size++;
 		}
+
 		public T Get(int position)
 		{
 			if (IsEmpty())
@@ -77,41 +90,29 @@ namespace Lesson5.DynamicArray
 			{
 				throw new NullReferenceException("Position doesn't exist.");
 			}
-			else
-			{
-				return array[position];
-			}
+			return array[position];
 		}
 
 		public T Remove	(int position)
 		{
-			T item;
 			if (IsEmpty())
 			{
 				throw new NullReferenceException("List is Empty.");
 			}
-			else if (position > Size)
+			if (position > Size)
 			{
 				throw new NullReferenceException("Position doesn't exist.");
 			}
-			else if (position == Size - 1)
+			T item;
+			item = array[position];
+			int temp = position;
+			while (temp != Size)
 			{
-				item = array[position];
-				Size--;
-				return item;
+				array[position] = array[position +1];
+				temp++;
 			}
-			else
-			{
-				item = array[position];
-				int temp = position;
-				while (temp != Size)
-				{
-					array[position] = array[position +1];
-					temp++;
-				}
-				Size-- ;
-				return item;
-			}
+			Size-- ;
+			return item;
 		}
 	}
 }
