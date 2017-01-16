@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lesson5.DynamicArray;
 
 namespace Lesson5
 {
