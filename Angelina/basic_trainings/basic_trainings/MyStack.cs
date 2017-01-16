@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace basic_trainings
-{
-    //class MyStack:Buffer
+{   
     class MyStack<T> : IBuffer<T> where T : IComparable
-
     {
         private T[] stack;
         

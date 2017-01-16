@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    //class MyQueue:Buffer
     class MyQueue<T> : IBuffer<T> where T: IComparable
     {
         private int Size;
@@ -50,7 +49,6 @@ namespace basic_trainings
 
         public void Enqueue(T value)
         {
-           // if ((_Head == Size - 1) && (queue[_Head] == default(T)))
             if ((_Head == Size - 1) && (queue[_Head].Equals(default(T))))
             {
                 queue[_Head] = value;
@@ -65,11 +63,6 @@ namespace basic_trainings
                 queue[_Head] = value;
                 _Head++;
             }
-/*
-            if (_Tail == -1)
-            {
-                _Tail++;
-            }*/
         }
 
         public T Dequeue()
@@ -96,7 +89,7 @@ namespace basic_trainings
             }
         }
 
-        public void Print()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        public void Print()
         {
             if (!IsEmpty())
             {

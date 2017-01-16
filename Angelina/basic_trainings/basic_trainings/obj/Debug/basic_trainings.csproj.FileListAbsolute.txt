@@ -1,6 +1,0 @@
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\bin\Debug\basic_trainings.exe.config
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\bin\Debug\basic_trainings.exe
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\bin\Debug\basic_trainings.pdb
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\obj\Debug\basic_trainings.csprojResolveAssemblyReference.cache
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\obj\Debug\basic_trainings.exe
-D:\git\trainee\Angelina\basic_trainings\basic_trainings\obj\Debug\basic_trainings.pdb

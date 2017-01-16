@@ -10,20 +10,16 @@ namespace basic_trainings
     {
         static void Main(string[] args)
         {
-
+            /*
             int[] array = new int[] { 6, 6, 99, 56, 58, 4, 3, 98, 5, 17, 45, 89 };
             //char[] array = new char[] { 'g', 'e', 'y', 'l', 'u', 'r', 'h', 'q', 'w' };
             Console.WriteLine("Initial array:");
-            //Array.Sort(array);
             foreach (int value in array)
             {
                 Console.Write("{0}  ", value);
             }
             Console.Write("\n");
-
-            //Type t = array.GetType(); 
-            // Type t = (array.GetType())t;
-
+            
             Console.WriteLine("\nPeople:");
             Human[] people =               
                 {
@@ -136,7 +132,29 @@ namespace basic_trainings
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
             Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());         
-            
+            */
+
+            //Dynamic array
+
+            DynamicArray <int> list= new DynamicArray<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            list.Add(4);
+
+            for(int i=0; i<list.Size; i++)
+                Console.WriteLine(list.Get(i));
+            Console.WriteLine("\n");
+            list.Remove(0);
+
+            for (int i = 0; i < list.Size; i++)
+                Console.WriteLine(list.Get(i));
+            Console.WriteLine("\n");
+            list.Insert(12, 2);
+
+            for (int i = 0; i < list.Size; i++)
+                Console.WriteLine(list.Get(i));
+            Console.WriteLine("\n");
 
             Console.ReadLine();
         }
