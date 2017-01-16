@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class DynamicArray<T>
+    class DynamicArray<T>: IPrintable<T>
     {
         private T[] DynArray;
 
@@ -22,33 +22,23 @@ namespace basic_trainings
             DynArray = new T[Capacity];
             this.Size = 0;
             this.MaxSize = 5000;
-        }
+        }     
 
-        /*
-        public DynamicArray(int Capacity)
-        {
-            this.Capacity = Capacity;
-            DynArray = new T[Capacity];
-            this.Size = 0;
-        }
-        */
-
-     /*   public DynamicArray(int MaxSize)
+        public DynamicArray(int MaxSize)
         {
             this.MaxSize = MaxSize;
-            this.Capacity = 10;//Capacity can increase until it will become equal to MaxSize !!!!!!!!!!!!!!!!!!!!!!!!!!!
+            this.Capacity = 10; //Capacity can increase until it will become equal to MaxSize
             DynArray = new T[Capacity];
             this.Size = 0;
-        }*/
+        }
 
         public void Add(T item)
         {
-            if (Size == Capacity || Size == Capacity - 1)
-            {                
-                Capacity *= 2;               
-                Array.Resize(ref DynArray, Capacity);
+            if (Size == Capacity )
+            {
+                DoubleCapacity();
             }
-            
+
             DynArray[Size] = item;
             Size++;
             
@@ -64,19 +54,9 @@ namespace basic_trainings
             }
             else
             {
-                if (Size == Capacity || Size == Capacity - 1)
+                if (Size == Capacity )
                 {
-                  /*  if(Capacity*2<=MaxSize)
-                    {*/
-                        Capacity *= 2;
-                  /*  }
-                    else
-                    {
-                        Capacity = MaxSize;
-                    }*/
-                    Array.Resize(ref DynArray, Capacity);
-
-
+                    DoubleCapacity();
                 }
               
                     for (int i = index; i < Size; i++)
@@ -86,28 +66,34 @@ namespace basic_trainings
                     DynArray[index] = item;
                     Size++;                
             }              
-                
         }
 
         public T Get(int index)
         {
-            if (index >= Size)
+            if (Size==0)
             {
-                Console.WriteLine("Can't remove: Index should be in the range from 0 to {0}", Size - 1);
-                return DynArray[index];
-
+                return default(T);
+            }
+            if (index >= Size || index<0)
+            {
+                throw new IndexOutOfRangeException("Wrong index");              
             }
             else
             {
                 return DynArray[index];
             }
-        }        
+        }
 
-        public void Remove(int index)
+        public T GetLast()
         {
-            if (index >= Size)
+            return Get(Size - 1);
+        }
+
+        public void Remove(int index )
+        {
+            if (index >= Size || index < 0)
             {
-                Console.WriteLine("Can't remove: Index should be in the range from 0 to {0}", Size-1);
+                throw new IndexOutOfRangeException("Wrong index");
             }
             else
             {
@@ -120,9 +106,52 @@ namespace basic_trainings
             }
         }
 
-       
+        public void RemoveLast()
+        {
+            Remove(Size - 1);
+        }
 
+        private void ResizeArray(int newLength)
+        {
+            T[] tempArray = new T[newLength];
+            for (int i = 0; i < Size; i++)
+                tempArray[i] = DynArray[i];
+            DynArray = tempArray;
+            if (Capacity < newLength)
+                Capacity = newLength;
+        }
 
+        private void DoubleCapacity()
+        {
+            if (Capacity == MaxSize)
+            {
+                throw new Exception("Capacity can't be greater than maximum size");
+            }
+            else if (Capacity * 2 > MaxSize)
+            {
+                Capacity *= 2;
+            }
+            else
+            {
+                Capacity *= 2;
+            }
+            ResizeArray(Capacity);
+        }
+
+        public void Print()
+        {
+            Console.WriteLine("Array:");
+            for (int i = 0; i < Size; i++)
+                Console.WriteLine(Get(i));
+            Console.WriteLine("\n");
+        }
+
+        public void Swap(int index1, int index2)
+        {
+            T temp = DynArray[index1];
+            DynArray[index1] = DynArray[index2];
+            DynArray[index2] = temp;
+        }
 
     }
 }

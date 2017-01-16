@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="BubbleSorter.cs" />
     <Compile Include="DynamicArray.cs" />
+    <Compile Include="DynamicQueue.cs" />
+    <Compile Include="DynamicStack.cs" />
     <Compile Include="IBuffer.cs" />
     <Compile Include="InsertionSorter.cs" />
     <Compile Include="IPrintable.cs" />
