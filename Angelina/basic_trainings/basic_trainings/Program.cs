@@ -255,9 +255,9 @@ namespace basic_trainings
             Console.WriteLine("\n\n LINKED LIST:\n");
 
             MyLinkedList<int> linkedList = new MyLinkedList<int>();
-
+            
             Console.WriteLine("Count: " + linkedList.Count);
-
+            
             linkedList.Remove(23);
             linkedList.RemoveFirst();
             linkedList.RemoveLast();
@@ -267,20 +267,23 @@ namespace basic_trainings
             linkedList.AddFirst(0);
             linkedList.AddLast(2);
             linkedList.Print();
+            Console.WriteLine("Count: " + linkedList.Count);
 
             linkedList.Add(3);
             linkedList.Add(4);
             linkedList.Add(5);
             linkedList.Add(6);
             linkedList.Print();
+            Console.WriteLine("Count: " + linkedList.Count);
+
 
             linkedList.Remove(23);
             linkedList.Remove(4);
             linkedList.Remove(3);
             linkedList.Remove(2);
             linkedList.Print();
-
             Console.WriteLine("Count: " + linkedList.Count);
+
             // Console.WriteLine(linkedList[0]);
 
             linkedList.AddAfter(2, 22);
@@ -288,9 +291,16 @@ namespace basic_trainings
             linkedList.AddBefore(5, 55);
             linkedList.AddBefore(0, 100);
             linkedList.AddAfter(6, 66);
-
             linkedList.Print();
+            Console.WriteLine("Count: " + linkedList.Count);
 
+
+            linkedList.Remove(23);
+            linkedList.Remove(5);
+            linkedList.RemoveFirst();
+            linkedList.RemoveLast();
+            linkedList.Print();
+            Console.WriteLine("Count: " + linkedList.Count);
 
             Console.ReadLine();
         }

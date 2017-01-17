@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {
-    class MyLinkedList<T>
+    class MyDoubleLinkedList<T>
     {
         private MyNode<T> Head;
         private MyNode<T> Tail;
         public int Count { get; private set; }
+        
 
-        public MyLinkedList()
+        public MyDoubleLinkedList()
         {
             Count = 0;
         }
@@ -44,7 +45,6 @@ namespace basic_trainings
 
         public bool AddBefore(T item, T Value)
         {
-            MyNode<T> previousItem = null;
             MyNode<T> currentItem = Head;
             MyNode<T> newNode = new MyNode<T>(Value);
 
@@ -59,26 +59,32 @@ namespace basic_trainings
                 {
                     if (currentItem.Value.Equals(item))//necessary item was found
                     {
-                        if (Count == 1 || currentItem == Head)//there is only element in list or add before the head
+                        if (Count == 1 || currentItem == Head)//add before head or there is only element in list
                         {
                             AddFirst(Value);
-                        }                        
+                        }
                         else if (currentItem == Tail)//necessary item is the last element of list
+                                                     //add before Tail
                         {
-                            previousItem.Next = newNode;
+                            newNode.Previous = Tail.Previous;
+                            Tail.Previous = newNode;
+                            newNode.Previous.Next = newNode;
                             newNode.Next = Tail;
+
                             Count++;
                         }
                         else//necessary item isn't the first or the last element of list
                         {
-                            previousItem.Next = newNode;
+                            currentItem.Previous.Next = newNode;
+                            newNode.Previous = currentItem.Previous;
                             newNode.Next = currentItem;
+                            currentItem.Previous = newNode;
+
                             Count++;
                         }
-                        
+
                         return true;
                     }
-                    previousItem = currentItem;
                     currentItem = currentItem.Next;
                 }
 
@@ -89,7 +95,6 @@ namespace basic_trainings
 
         public bool AddAfter(T item, T Value)
         {
-            MyNode<T> previousItem = null;
             MyNode<T> currentItem = Head;
             MyNode<T> newNode = new MyNode<T>(Value);
 
@@ -106,26 +111,36 @@ namespace basic_trainings
                 {
                     if (currentItem.Value.Equals(item))//necessary item was found
                     {
-                        if (Count == 1 || currentItem == Head)//there is only element in list or add after the head
+                        if (Count == 1)//there is only element in list
                         {
+                            AddLast(Value);
+                        }
+                        else if (currentItem == Head)//necessary item is the first element of list
+                        {
+                            Head.Next.Previous = newNode;
+                            newNode.Next = Head.Next;
+                            newNode.Previous = Head;
                             Head.Next = newNode;
-                            Tail = newNode;
+
                             Count++;
-                        }                        
-                        else if (currentItem == Tail)//necessary item is the last element of list
+
+                        }
+                        else if (currentItem == Tail)//add after the last element of list
                         {
                             AddLast(Value);
                         }
                         else//necessary item isn't the first or the last element of list
                         {
+                            currentItem.Next.Previous = newNode;
                             newNode.Next = currentItem.Next;
                             currentItem.Next = newNode;
+                            newNode.Previous = currentItem;
+
                             Count++;
                         }
 
                         return true;
                     }
-                    previousItem = currentItem;
                     currentItem = currentItem.Next;
                 }
 
@@ -147,6 +162,7 @@ namespace basic_trainings
             }
             else
             {
+                Head.Previous = newNode;
                 newNode.Next = Head;
                 Head = newNode;
             }
@@ -157,22 +173,23 @@ namespace basic_trainings
         public void AddLast(T Value)
         {
             MyNode<T> newNode = new MyNode<T>(Value);
-            if (IsEmpty())
+            
+            if (IsEmpty())//add first and the only element  ==head==tail
             {
-                AddFirst(Value);
-            }
-            else
-            {
-                //add element in the end ==tail
-                Tail.Next = newNode;
+                Head = newNode;
                 Tail = newNode;
-                Count++;
             }
+            else //add element in the end ==tail
+            {                
+                Tail.Next = newNode;
+                newNode.Previous = Tail;
+                Tail = newNode;
+            }
+            Count++;
         }
 
         public bool Remove(T item)
         {
-            MyNode<T> previousItem = null;
             MyNode<T> currentItem = Head;
 
             if (IsEmpty())//list is empty
@@ -186,30 +203,27 @@ namespace basic_trainings
                 {
                     if (currentItem.Value.Equals(item))//necessary item was found
                     {
-                        if (Count == 1 || currentItem == Head)//there is only element in list or remove the head
+                        if (Count == 1 || currentItem == Head)//there is only element in list
                         {
                             RemoveFirst();
-                        }                       
+                        }
                         else if (currentItem == Tail)//necessary item is the last element of list
                         {
-                            Tail = previousItem;
-                            previousItem.Next = null;
-                            Count--;
+                            RemoveLast();
                         }
                         else//necessary item isn't the first or the last element of list
                         {
-                            previousItem.Next = currentItem.Next;
+                            currentItem.Previous.Next = currentItem.Next;
+                            currentItem.Next.Previous = currentItem.Previous;
                             Count--;
                         }
-                        
+
                         return true;
                     }
-                    previousItem = currentItem;
                     currentItem = currentItem.Next;
                 }
 
                 Console.WriteLine("Can't remove: the list not contains the item: {0}", item);
-
                 return false;
             }
 
@@ -220,7 +234,9 @@ namespace basic_trainings
         {
             if (!IsEmpty())
             {
+                Head.Next.Previous = null;
                 Head = Head.Next;
+
                 Count--;
                 return true;
             }
@@ -228,11 +244,11 @@ namespace basic_trainings
             {
                 Console.WriteLine("Can't remove: the list is empty!!!");
                 return false;
-            }         
+            }
         }
 
         public bool RemoveLast()
-        {           
+        {
             if (IsEmpty())
             {
                 Console.WriteLine("Can't remove: the list is empty!!!");
@@ -240,8 +256,11 @@ namespace basic_trainings
             }
             else
             {
-                return Remove(Tail.Value);//will work only if Tail.Value is unique
+                Tail.Previous.Next = null;
+                Tail = Tail.Previous;
 
+                Count--;
+                return true;
             }
 
         }
@@ -259,7 +278,6 @@ namespace basic_trainings
                     item = item.Next;
                 }
                 Console.WriteLine("____________________");
-
             }
             else
             {

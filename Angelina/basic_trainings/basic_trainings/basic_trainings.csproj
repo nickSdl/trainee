@@ -51,6 +51,7 @@
     <Compile Include="InsertionSorter.cs" />
     <Compile Include="IPrintable.cs" />
     <Compile Include="ISorter.cs" />
+    <Compile Include="MyDoubleLinkedList.cs" />
     <Compile Include="MyLinkedList.cs" />
     <Compile Include="MyNode.cs" />
     <Compile Include="Program.cs" />
