@@ -137,6 +137,8 @@ namespace basic_trainings
             /*
             //Dynamic array
 
+            Console.WriteLine("\n\n DYNAMIC ARRAY:\n");
+
             DynamicArray <int> list= new DynamicArray<int>();
             list.Add(1);
             list.Add(2);
@@ -157,7 +159,7 @@ namespace basic_trainings
             list.Print();
             Console.WriteLine("Capacity: " + list.Capacity);
             */
-            
+            /*
             //dynamic stack
             Console.WriteLine("\n\n DYNAMIC STACK:\n");
             DynamicStack<int> mystack = new DynamicStack<int>(10);
@@ -200,10 +202,10 @@ namespace basic_trainings
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Pop());
-            
+            */
 
 
-
+            /*
             //dynamic queue
             Console.WriteLine("\n\n DYNAMIC QUEUE:\n");
             DynamicQueue<int> myqueue = new DynamicQueue<int>(10);
@@ -247,8 +249,47 @@ namespace basic_trainings
             Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
-          
-            
+          */
+
+            //linked list
+            Console.WriteLine("\n\n LINKED LIST:\n");
+
+            MyLinkedList<int> linkedList = new MyLinkedList<int>();
+
+            Console.WriteLine("Count: " + linkedList.Count);
+
+            linkedList.Remove(23);
+            linkedList.RemoveFirst();
+            linkedList.RemoveLast();
+            linkedList.Print();
+
+            linkedList.Add(1);
+            linkedList.AddFirst(0);
+            linkedList.AddLast(2);
+            linkedList.Print();
+
+            linkedList.Add(3);
+            linkedList.Add(4);
+            linkedList.Add(5);
+            linkedList.Add(6);
+            linkedList.Print();
+
+            linkedList.Remove(23);
+            linkedList.Remove(4);
+            linkedList.Remove(3);
+            linkedList.Remove(2);
+            linkedList.Print();
+
+            Console.WriteLine("Count: " + linkedList.Count);
+            // Console.WriteLine(linkedList[0]);
+
+            linkedList.AddAfter(2, 22);
+            linkedList.AddAfter(1, 11);
+            linkedList.AddBefore(5, 55);
+            linkedList.AddBefore(0, 100);
+            linkedList.AddAfter(6, 66);
+
+            linkedList.Print();
 
 
             Console.ReadLine();

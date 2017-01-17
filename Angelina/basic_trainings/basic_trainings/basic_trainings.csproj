@@ -51,6 +51,8 @@
     <Compile Include="InsertionSorter.cs" />
     <Compile Include="IPrintable.cs" />
     <Compile Include="ISorter.cs" />
+    <Compile Include="MyLinkedList.cs" />
+    <Compile Include="MyNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyQueue.cs" />
