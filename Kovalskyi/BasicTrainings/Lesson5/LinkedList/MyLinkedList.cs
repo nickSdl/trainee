@@ -118,7 +118,6 @@ namespace Lesson5.LinkedList
 				current.Next = current.Next.Next;
 			}
 			return result;
-			
 		}
 
 		/// <summary>
@@ -150,13 +149,13 @@ namespace Lesson5.LinkedList
 			return current.Data;
 		}
 		
-
 		/// <summary>
 		/// Clear list.
 		/// </summary>
 		public void Clear()
 		{
 			head = null;
+			size = 0;
 		}	
 	}
 }
