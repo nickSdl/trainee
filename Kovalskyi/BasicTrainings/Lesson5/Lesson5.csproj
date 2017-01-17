@@ -44,11 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamicArray\DynamicArray.cs" />
+    <Compile Include="DynamicArray\DynamicQueue.cs" />
+    <Compile Include="DynamicArray\DynamicStack.cs" />
     <Compile Include="Interfaces\IBuffer.cs" />
     <Compile Include="Interfaces\IMyQueue.cs" />
     <Compile Include="Interfaces\IMyStack.cs" />
     <Compile Include="Interfaces\IPrintable.cs" />
     <Compile Include="Interfaces\ISorter.cs" />
+    <Compile Include="LinkedList\MyLinkedList.cs" />
+    <Compile Include="LinkedList\Node.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Sorter\BubbleSorter.cs" />
     <Compile Include="Buffer\Buffer.cs" />
