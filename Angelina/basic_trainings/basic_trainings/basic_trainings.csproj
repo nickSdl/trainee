@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BubbleSorter.cs" />
+    <Compile Include="BufferEventArgs.cs" />
     <Compile Include="DynamicArray.cs" />
     <Compile Include="DynamicQueue.cs" />
     <Compile Include="DynamicStack.cs" />
@@ -51,6 +52,8 @@
     <Compile Include="InsertionSorter.cs" />
     <Compile Include="IPrintable.cs" />
     <Compile Include="ISorter.cs" />
+    <Compile Include="MyBuffer.cs" />
+    <Compile Include="MyBufferException.cs" />
     <Compile Include="MyDoubleLinkedList.cs" />
     <Compile Include="MyLinkedList.cs" />
     <Compile Include="MyNode.cs" />

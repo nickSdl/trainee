@@ -6,22 +6,19 @@ using System.Threading.Tasks;
 
 namespace basic_trainings
 {   
-    class MyStack<T> : IBuffer<T> where T : IComparable
-    {
-        private T[] stack;
-        
-        private int Size;
-
+    class MyStack<T> : MyBuffer<T>, IBuffer<T> where T : IComparable
+    {        
         public MyStack(int Size)
         {
-            stack = new T[Size];
+            buffer = new T[Size];
             this.Size = Size;
         }        
 
         public bool IsEmpty()
         {
-            if (stack[0].Equals(default(T)))
+            if (buffer[0].Equals(default(T)))
             {
+                onBufferEmpty(new BufferEventArgs());
                 return true;
             }
             else
@@ -32,8 +29,9 @@ namespace basic_trainings
 
         public bool IsFull()
         {
-            if (!stack[stack.Length - 1].Equals(default(T)))
-            {
+            if (!buffer[buffer.Length - 1].Equals(default(T)))
+            {                
+                onBufferFull(new BufferEventArgs());                
                 return true;
             }
             else
@@ -44,85 +42,100 @@ namespace basic_trainings
 
         public void Print()
         {
-            Console.WriteLine("\nStack:");
-            foreach (T value in stack)
-            {
-                if (!value.Equals(default(T)))
+            try
+            {               
+                if (!IsEmpty())
                 {
-                    Console.Write("{0}  ", value);
+                    Console.WriteLine("\nStack:");
+                    foreach (T value in buffer)
+                    {
+                        if (!value.Equals(default(T)))
+                        {
+                            Console.Write("{0}  ", value);
+                        }
+                    }
+                    Console.Write("\n\n");
                 }
+            }            
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
-            Console.Write("\n\n");
         }
 
         public void Push(T value)
-        {           
-            if(IsFull())
+        {
+            try
             {
-                Console.WriteLine("Can't_push:Stack_is_full");
-            }            
-            else
-            {
-                for (int i = stack.Length - 2; i >= 0; i--)
+                if (IsFull())
                 {
-                    if(!stack[i].Equals(default(T)))
-                    {
-                        stack[i + 1] = stack[i];
-                    }
+                    throw new MyBufferException("MyBufferException: ''Can't push: Stack is full''");
                 }
-                stack[0] = value;
+                else
+                {
+                    for (int i = buffer.Length - 2; i >= 0; i--)
+                    {
+                        if (!buffer[i].Equals(default(T)))
+                        {
+                            buffer[i + 1] = buffer[i];
+                        }
+                    }
+                    buffer[0] = value;
+
+                    onBufferAdded(new BufferEventArgs(), value);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
         public T Pop()
-        {
-            if (IsEmpty())
-            {
-                 Console.WriteLine("Can't_dequeue:Queue_is_empty");
-                 return default(T);
-               
-                   // throw new Exception("Can't_dequeue:Queue_is_empty");
-                          
-            }
-            else
-            {
-                T value = stack[0];
-                for (int i=0; i<stack.Length-1; i++)
+        {            
+                if (IsEmpty())
                 {
-                    if (!stack[i + 1].Equals(default(T)))
+                    throw new MyBufferException("MyBufferException: ''Can't pop: Stack is empty''");                  
+                }                                   
+               else //if (!IsEmpty())
+                {
+                    T value = buffer[0];
+                    for (int i = 0; i < buffer.Length - 1; i++)
                     {
-                        stack[i] = stack[i + 1];
+                        if (!buffer[i + 1].Equals(default(T)))
+                        {
+                        buffer[i] = buffer[i + 1];
+                        }
+                        else// (stack[i+1] == null)
+                        {
+                        buffer[i] = default(T);
+                        }
                     }
-                    else// (stack[i+1] == null)
+
+                    if (!buffer[buffer.Length - 1].Equals(default(T)))
                     {
-                        stack[i] = default(T);
-                    }                     
-                    
-                }
-
-                if (!stack[stack.Length-1].Equals(default(T)))
-                {
-                    stack[stack.Length - 1] = default(T);
-                }
-
-                Console.Write("Pop: ");
-                return value;
-            }
-
+                        buffer[buffer.Length - 1] = default(T);
+                    }
+                   
+                    onBufferRemoved(new BufferEventArgs(),value);                   
+                   
+                    return value;
+                }            
         }
 
         public T Peek()
         {
             if (IsEmpty())
             {
-                Console.WriteLine("Can't_dequeue:Queue_is_empty");
-                return default(T);
+                throw new MyBufferException("MyBufferException: ''Can't peek: Stack is empty''");
             }
-            else
+            else     
             {
-                Console.Write("Peek: ");
-                return stack[0];
+                return buffer[0];
             }
         }
+            
+            
+        
     }
 }

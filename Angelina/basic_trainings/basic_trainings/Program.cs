@@ -10,6 +10,7 @@ namespace basic_trainings
     {
         static void Main(string[] args)
         {
+            #region sort array
             /*
             int[] array = new int[] { 6, 6, 99, 56, 58, 4, 3, 98, 5, 17, 45, 89 };
             //char[] array = new char[] { 'g', 'e', 'y', 'l', 'u', 'r', 'h', 'q', 'w' };
@@ -51,13 +52,24 @@ namespace basic_trainings
             insort.Print();
             insort.Sort();
             insort.Print();                     
-    
+    */
+            #endregion
 
+            #region stack
+            
             //stack
             Console.WriteLine("\n\n STACK:\n");
             MyStack<int> mystack = new MyStack<int>(10);
 
-            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
+            mystack.BufferAdded += ShowMessage;
+            mystack.BufferRemoved += ShowMessage;
+            mystack.BufferEmpty += ShowMessage;
+            mystack.BufferFull += ShowMessage;
+
+            mystack.Print();
+
+            
+            mystack.IsEmpty();// Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
             mystack.Push(1);
             mystack.Push(2);
             mystack.Push(3);
@@ -68,36 +80,49 @@ namespace basic_trainings
             mystack.Push(8);
             mystack.Push(9);
             mystack.Push(10);
-            mystack.Push(11);
-            mystack.Push(12);
-            mystack.Push(13);
+          //  mystack.Push(11);
+         //   mystack.Push(12);
+         //   mystack.Push(13);
             mystack.Print();
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Peek());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine("Stack is full: {0}", mystack.IsFull());
-            Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            Console.WriteLine("Peek: " + mystack.Peek());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.IsFull();//Console.WriteLine("Stack is full: {0}", mystack.IsFull());
+            mystack.IsEmpty();//Console.WriteLine("Stack is empty: {0}", mystack.IsEmpty());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
             mystack.Push(55);
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
-            Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+            mystack.Pop();//Console.WriteLine(mystack.Pop());
+           // mystack.Pop();//Console.WriteLine(mystack.Pop());
+            
+            #endregion
 
-            
-            
+            #region queue
+            /*
             //queue
             Console.WriteLine("\n\n CIRCULAR QUEUE:\n");
             MyQueue<int> myqueue = new MyQueue<int>(10);
 
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
-            Console.WriteLine(myqueue.Dequeue());
+            myqueue.BufferAdded += ShowMessage;
+            myqueue.BufferRemoved += ShowMessage;
+            myqueue.BufferEmpty += ShowMessage;
+            myqueue.BufferFull += ShowMessage;
+
+            myqueue.Print();
+
+            myqueue.IsFull();// Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+
+            // IsFull() and IsEmpty()   won't output anything if false
+
+
+            //   myqueue.IsEmpty();//Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
+            //          myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
 
             myqueue.Enqueue(1);
             myqueue.Enqueue(2);
@@ -108,32 +133,35 @@ namespace basic_trainings
             myqueue.Enqueue(7);
             myqueue.Enqueue(8);
             myqueue.Print();
+
             myqueue.Enqueue(9);
             myqueue.Enqueue(10);
-            Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
             myqueue.Enqueue(11);
             myqueue.Enqueue(12);
 
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine(myqueue.Dequeue());
-            Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
-            Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());         
+            myqueue.IsFull();//Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            myqueue.IsEmpty();//Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
+            myqueue.IsFull();// Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            myqueue.IsEmpty();// Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
+            myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
+          //  myqueue.Dequeue();// Console.WriteLine(myqueue.Dequeue());
+         //   myqueue.Dequeue();//Console.WriteLine(myqueue.Dequeue());
+            myqueue.IsFull();//Console.WriteLine("Queue is full: {0}", myqueue.IsFull());
+            myqueue.IsEmpty();// Console.WriteLine("Queue is empty: {0}", myqueue.IsEmpty());         
             */
-
+            #endregion
+            
+            #region dynamic array
             /*
             //Dynamic array
 
@@ -159,6 +187,9 @@ namespace basic_trainings
             list.Print();
             Console.WriteLine("Capacity: " + list.Capacity);
             */
+            #endregion
+
+            #region dynamic stack
             /*
             //dynamic stack
             Console.WriteLine("\n\n DYNAMIC STACK:\n");
@@ -203,8 +234,9 @@ namespace basic_trainings
             Console.WriteLine(mystack.Pop());
             Console.WriteLine(mystack.Pop());
             */
+            #endregion
 
-
+            #region dynamic queue
             /*
             //dynamic queue
             Console.WriteLine("\n\n DYNAMIC QUEUE:\n");
@@ -250,59 +282,70 @@ namespace basic_trainings
             Console.WriteLine(myqueue.Dequeue());
             Console.WriteLine(myqueue.Dequeue());
           */
+            #endregion
 
-            //linked list
-            Console.WriteLine("\n\n LINKED LIST:\n");
+            #region linked list and doubly linked list
+            /*
+              //linked list
+              Console.WriteLine("\n\n LINKED LIST:\n");
 
-            MyLinkedList<int> linkedList = new MyLinkedList<int>();
-            
-            Console.WriteLine("Count: " + linkedList.Count);
-            
-            linkedList.Remove(23);
-            linkedList.RemoveFirst();
-            linkedList.RemoveLast();
-            linkedList.Print();
+              MyLinkedList<int> linkedList = new MyLinkedList<int>();
 
-            linkedList.Add(1);
-            linkedList.AddFirst(0);
-            linkedList.AddLast(2);
-            linkedList.Print();
-            Console.WriteLine("Count: " + linkedList.Count);
+              Console.WriteLine("Count: " + linkedList.Count);
 
-            linkedList.Add(3);
-            linkedList.Add(4);
-            linkedList.Add(5);
-            linkedList.Add(6);
-            linkedList.Print();
-            Console.WriteLine("Count: " + linkedList.Count);
+              linkedList.Remove(23);
+              linkedList.RemoveFirst();
+              linkedList.RemoveLast();
+              linkedList.Print();
 
+              linkedList.Add(1);
+              linkedList.AddFirst(0);
+              linkedList.AddLast(2);
+              linkedList.Print();
+              Console.WriteLine("Count: " + linkedList.Count);
 
-            linkedList.Remove(23);
-            linkedList.Remove(4);
-            linkedList.Remove(3);
-            linkedList.Remove(2);
-            linkedList.Print();
-            Console.WriteLine("Count: " + linkedList.Count);
-
-            // Console.WriteLine(linkedList[0]);
-
-            linkedList.AddAfter(2, 22);
-            linkedList.AddAfter(1, 11);
-            linkedList.AddBefore(5, 55);
-            linkedList.AddBefore(0, 100);
-            linkedList.AddAfter(6, 66);
-            linkedList.Print();
-            Console.WriteLine("Count: " + linkedList.Count);
+              linkedList.Add(3);
+              linkedList.Add(4);
+              linkedList.Add(5);
+              linkedList.Add(6);
+              linkedList.Print();
+              Console.WriteLine("Count: " + linkedList.Count);
 
 
-            linkedList.Remove(23);
-            linkedList.Remove(5);
-            linkedList.RemoveFirst();
-            linkedList.RemoveLast();
-            linkedList.Print();
-            Console.WriteLine("Count: " + linkedList.Count);
+              linkedList.Remove(23);
+              linkedList.Remove(4);
+              linkedList.Remove(3);
+              linkedList.Remove(2);
+              linkedList.Print();
+              Console.WriteLine("Count: " + linkedList.Count);
+
+              // Console.WriteLine(linkedList[0]);
+
+              linkedList.AddAfter(2, 22);
+              linkedList.AddAfter(1, 11);
+              linkedList.AddBefore(5, 55);
+              linkedList.AddBefore(0, 100);
+              linkedList.AddAfter(6, 66);
+              linkedList.Print();
+              Console.WriteLine("Count: " + linkedList.Count);
+
+
+              linkedList.Remove(23);
+              linkedList.Remove(5);
+              linkedList.RemoveFirst();
+              linkedList.RemoveLast();
+              linkedList.Print();
+              Console.WriteLine("Count: " + linkedList.Count);
+              */
+            #endregion
 
             Console.ReadLine();
         }
+
+        static void ShowMessage(object sender, BufferEventArgs e)
+        {
+            Console.WriteLine(e.message);
+        }
+
     }
 }
