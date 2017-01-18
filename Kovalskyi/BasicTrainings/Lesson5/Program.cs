@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lesson5.DynamicArray;
 using Lesson5.LinkedList;
+using Lesson5.Buffer;
 
 namespace Lesson5
 {
@@ -31,11 +32,13 @@ namespace Lesson5
 			//	Console.WriteLine(item);
 			//}
 
-			MyLinkedList<string> aa = new MyLinkedList<string>();
-			aa.Add("22");
-			Console.WriteLine(aa.IsEmpty());
-			aa.Remove(0);
-			Console.WriteLine(aa.IsEmpty());
+			MyStack<int> stack = new MyStack<int>(2);
+
+			stack.Push(12);
+			stack.Pop();
+			
+
+
 			Console.Read();
 		}
 	}

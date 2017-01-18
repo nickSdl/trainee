@@ -10,7 +10,7 @@ namespace Lesson5.Buffer
 		private void ArrayResize(int step)
 		{
 			T[] temp = new T[array.Length + step];
-			for (int i = 0; i < array.Length; i++)
+			for (int i = 0; i < array.Length - 1; i++)
 			{
 				temp[i] = array[i];
 			}
@@ -20,6 +20,9 @@ namespace Lesson5.Buffer
 		public MyStack(int length)
 		{
 			arrayLength = length;
+			ShowBufferState showState = new ShowBufferState();
+			Added += showState.ShowEvent;
+			Removed += showState.ShowEvent;
 		}
 
 		public int Count()
@@ -38,30 +41,39 @@ namespace Lesson5.Buffer
 		{
 			if (IsEmpty())
 			{
-				throw new InvalidOperationException("Stack is empty.");
+				throw new BufferOutOfRangeException("Stack is empty.");
 			}
-			else
+			T lastItem = array[array.Length - 1];
+			ArrayResize(-1);
+			if (array.Length == 0)
 			{
-				T lastItem = array[array.Length - 1];
-				ArrayResize(-1);
-				return lastItem;
+				OnAddChanged(new BufferEventArgs("Stack is empty."));
 			}
+			return lastItem;
 		}
 
 		public void Push(T item)
 		{
 			if (IsFull())
 			{
-				throw new InvalidOperationException("Stack is full.");
+				throw new BufferOutOfRangeException("Stack is full.");
 			}
 			else if (IsEmpty())
 			{
 				array = new T[] { item };
+				if (IsFull())
+				{
+					OnRemoveChanged(new BufferEventArgs("Stack is full."));
+				}
 			}
 			else
 			{
 				ArrayResize(1);
 				array[array.Length - 1] = item;
+				if (IsFull())
+				{
+					OnRemoveChanged(new BufferEventArgs("Stack is full."));
+				}
 			}
 		}
 
@@ -69,7 +81,7 @@ namespace Lesson5.Buffer
 		{
 			if (IsEmpty())
 			{
-				throw new InvalidOperationException("Stack is empty.");
+				throw new BufferOutOfRangeException("Stack is empty.");
 			}
 			else
 			{

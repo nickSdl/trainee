@@ -89,7 +89,7 @@ namespace Lesson5.LinkedList
 		/// <returns>Return data by index.</returns>
 		public T Remove(int index)
 		{
-			if (index < 0)
+			if (index < 1)
 			{
 				throw new ArgumentOutOfRangeException("index: " + index);
 			}
@@ -127,7 +127,7 @@ namespace Lesson5.LinkedList
 		/// <returns>Return data by index.</returns>
 		public T Get(int index)
 		{
-			if (index < 0)
+			if (index < 1)
 			{
 				throw new ArgumentOutOfRangeException("index: " + index);
 			}
