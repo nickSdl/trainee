@@ -5,16 +5,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinArc.ArcCore;
 
 namespace WinArc.ArchCore
 {
 	public class Archivator
 	{
+		private EventHandler<SaveProgressEventArgs> saveProgress;
+
+		public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
+		{
+			this.saveProgress = saveProgress;
+		}
+
 		public void AddFile(string file)
 		{
 			using (ZipFile zip = new ZipFile())
 			{
 				zip.AddFile(file, "");
+				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+				zip.SaveProgress += saveProgress;
 				string direct = Path.GetDirectoryName(file);
 				string fileName = Path.GetFileNameWithoutExtension(file);
 				zip.Save(direct + "\\" + fileName + ".zip");
@@ -26,6 +36,8 @@ namespace WinArc.ArchCore
 			using (ZipFile zip = new ZipFile())
 			{
 				string currentPath = Path.GetDirectoryName(path);
+				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+				zip.SaveProgress += saveProgress;
 				zip.AddDirectory(path);
 				string direct = Path.GetDirectoryName(path);
 				zip.Save(currentPath + ".zip");
@@ -37,6 +49,8 @@ namespace WinArc.ArchCore
 			string direct = Path.GetDirectoryName(file);
 			using (ZipFile zip = ZipFile.Read(file))
 			{
+				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+				zip.SaveProgress += saveProgress;
 				foreach (ZipEntry e in zip)
 				{
 					e.Extract(direct, ExtractExistingFileAction.OverwriteSilently);
@@ -44,14 +58,5 @@ namespace WinArc.ArchCore
 			}
 		}
 
-		public void ExtractFilesTo(string file, string outputDirectory)
-		{
-			ZipFile zip = ZipFile.Read(file);
-			Directory.CreateDirectory(outputDirectory);
-			foreach (ZipEntry e in zip)
-			{
-				e.Extract(outputDirectory, ExtractExistingFileAction.OverwriteSilently);
-			}
-		}
 	}
 }
