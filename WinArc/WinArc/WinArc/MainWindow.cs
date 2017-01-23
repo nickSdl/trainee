@@ -17,20 +17,19 @@ namespace WinArc
 		public MainWindow()
 		{
 			InitializeComponent();
-			//  this.Load += new EventHandler(treeView1_BeforeExpand);            
 		}
 
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
-			ViewMethods.GetDrives(treeView1);
+			ViewMethods.GetDrives(folderTree);
 
 			for (int i = 0; i < 4; i++)
 			{
-				listView1.Columns[i].Width = listView1.Width/4;
+				folderView.Columns[i].Width = folderView.Width/4;
 			}
 		}
 
-		private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
+		private void folderTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
 		{
 			if (e.Node.Nodes.Count > 0)
 			{
@@ -82,7 +81,7 @@ namespace WinArc
 			}
 		}             	
 
-		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		private void folderTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 		   try
 			{
@@ -97,10 +96,10 @@ namespace WinArc
 				{
 					path = path.Insert(1, ":");
 				}
-				textBox1.Text = path;
+				pathBox.Text = path;
 
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 			}
 			catch (Exception ex)
 			{
@@ -109,26 +108,21 @@ namespace WinArc
 
 		}
 
-		private void textBox1_KeyDown(object sender, KeyEventArgs e)
+		private void pathBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Return)
 			{
-				path = textBox1.Text;
+				path = pathBox.Text;
 
-				//open entered directory on listView1                
-				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+                //open entered directory on folderView                
+                DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
+				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 			}            
 		}      		     	
 			
-		private void listView1_Click(object sender, EventArgs e)
-		{
-			//  listView1.SelectedItems[0].BackColor = Color.Aquamarine;
-
-			/*	string itemName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
-				itemName = itemName.Replace("}", "");*/
-
-			fileName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+		private void folderView_Click(object sender, EventArgs e)
+		{           
+            fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
 			fileName = fileName.Replace("}", "");
 
 			if (!path[path.Length-1].Equals('\\'))
@@ -136,16 +130,16 @@ namespace WinArc
 				path = path + '\\';
 			}
 		//	path = path + filePath;
-			textBox1.Text = path + fileName;
+			pathBox.Text = path + fileName;
 		}
 
-		private void listView1_DoubleClick(object sender, EventArgs e)
+		private void folderView_DoubleClick(object sender, EventArgs e)
 		{
-			//double click on item
-			//- directory : open this directory on listView1
-			//- file : open file
+            //double click on item
+            //- directory : open this directory on folderView
+            //- file : open file
 
-			path = textBox1.Text;            
+            path = pathBox.Text;            
 
 		  if(path.Contains('.'))//remove from path part with name of file
 			{
@@ -153,10 +147,10 @@ namespace WinArc
 				path = path.Remove(index);
 			}
 
-			fileName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+			fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
 			fileName = fileName.Replace("}", "");
 
-			ListViewItem selectedItem = listView1.SelectedItems[0];
+			ListViewItem selectedItem = folderView.SelectedItems[0];
 
 			if (selectedItem.SubItems[1].Text == "File")
 			{
@@ -165,7 +159,7 @@ namespace WinArc
 			if (selectedItem.SubItems[1].Text == "Directory")
 			{
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 			}
 		}
 
@@ -180,25 +174,25 @@ namespace WinArc
 			int stepHeight = this.Height - initialFormHeight;
 			int stepWidth = this.Width - initialFormWidth;
 
-			this.listView1.Height += stepHeight;
-			this.listView1.Width += stepWidth*2/3;
-			this.listView1.Left += stepWidth / 3;
+			this.folderView.Height += stepHeight;
+			this.folderView.Width += stepWidth*2/3;
+			this.folderView.Left += stepWidth / 3;
 
 
-			this.treeView1.Height += stepHeight;
-			this.treeView1.Width += stepWidth/3;
+			this.folderTree.Height += stepHeight;
+			this.folderTree.Width += stepWidth/3;
 
 			this.progressOfWork.Top += stepHeight;         
 			this.progressOfWork.Width += stepWidth/3;
 
-			textBox1.Width += stepWidth;
+			pathBox.Width += stepWidth;
 
 			buttonAbout.Left += stepWidth;           
 			buttonExit.Left += stepWidth;
 
 			for (int i = 0; i < 4; i++)
 			{
-				listView1.Columns[i].Width = listView1.Width / 4;
+				folderView.Columns[i].Width = folderView.Width / 4;
 			}
 		}      
 
@@ -207,7 +201,7 @@ namespace WinArc
 			Archivator arc = new Archivator(SaveProgress);
 			if (path != null)
 			{
-				ListViewItem selectedItem = listView1.SelectedItems[0];
+				ListViewItem selectedItem = folderView.SelectedItems[0];
 				if (selectedItem.SubItems[1].Text == "File")
 				{
 					if (!path[path.Length - 1].Equals('\\'))
@@ -303,10 +297,10 @@ namespace WinArc
 						refreshPath = refreshPath.Remove(index);
 					}
 
-					textBox1.Text = refreshPath;
+					pathBox.Text = refreshPath;
 
 					DirectoryInfo nodeDirInfo = new DirectoryInfo(refreshPath);
-					ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+					ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 				}
 			}
 			catch (NullReferenceException ex)
