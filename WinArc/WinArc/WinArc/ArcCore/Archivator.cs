@@ -1,60 +1,89 @@
 ﻿using Ionic.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WinArc.ArcCore;
 
 namespace WinArc.ArchCore
 {
 	public class Archivator
 	{
 		private EventHandler<SaveProgressEventArgs> saveProgress;
+		private EventHandler<ExtractProgressEventArgs> extractProgress;
 
 		public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
 		{
 			this.saveProgress = saveProgress;
 		}
 
-		public void AddFile(string file)
+		public Archivator(EventHandler<ExtractProgressEventArgs> extractProgress)
 		{
-			using (ZipFile zip = new ZipFile())
+			this.extractProgress = extractProgress;
+		}
+
+		public void AddFile(string path)
+		{
+			if (path != null)
 			{
-				zip.AddFile(file, "");
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
-				zip.SaveProgress += saveProgress;
-				string direct = Path.GetDirectoryName(file);
-				string fileName = Path.GetFileNameWithoutExtension(file);
-				zip.Save(direct + "\\" + fileName + ".zip");
+				using (ZipFile zip = new ZipFile())
+				{
+					zip.AddFile(path, "");
+					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+					zip.SaveProgress += saveProgress;
+					string direct = Path.GetDirectoryName(path);
+					string fileName = Path.GetFileNameWithoutExtension(path);
+					zip.Save(direct + "\\" + fileName + ".zip");
+				}
+			}
+			else
+			{
+				throw new ArgumentNullException("Wrong path to file");
 			}
 		}
 
 		public void AddFolder(string path)
 		{
-			using (ZipFile zip = new ZipFile())
+			if (path != null)
 			{
-				string currentPath = Path.GetDirectoryName(path);
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
-				zip.SaveProgress += saveProgress;
-				zip.AddDirectory(path);
-				string direct = Path.GetDirectoryName(path);
-				zip.Save(currentPath + ".zip");
+				using (ZipFile zip = new ZipFile())
+				{
+					string currentPath = Path.GetDirectoryName(path);
+					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+					zip.SaveProgress += saveProgress;
+					zip.AddDirectory(path);
+					string direct = Path.GetDirectoryName(path);
+					zip.Save(currentPath + ".zip");
+				}
+			}
+			else
+			{
+				throw new ArgumentNullException("Wrong path to file");
 			}
 		}
 
-		public void ExtractFiles(string file)
+		public void ExtractFiles(string path)
 		{
-			string direct = Path.GetDirectoryName(file);
-			using (ZipFile zip = ZipFile.Read(file))
+			if (path != null)
 			{
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
-				zip.SaveProgress += saveProgress;
-				foreach (ZipEntry e in zip)
+				string direct = Path.GetDirectoryName(path);
+				string fileName = Path.GetFileNameWithoutExtension(path) + "\\";
+				string extractPath = direct + "\\" + fileName;
+
+				if (!Directory.Exists(extractPath))
 				{
-					e.Extract(direct, ExtractExistingFileAction.OverwriteSilently);
+					Directory.CreateDirectory(extractPath);
 				}
+				using (ZipFile zip = ZipFile.Read(path))
+				{
+					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
+					zip.ExtractProgress += extractProgress;
+					foreach (ZipEntry e in zip)
+					{
+						e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+					}
+				}
+			}
+			else
+			{
+				throw new ArgumentNullException("Wrong path to file");
 			}
 		}
 

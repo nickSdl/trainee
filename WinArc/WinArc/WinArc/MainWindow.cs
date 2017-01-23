@@ -1,15 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinArc.ArchCore;
-using System.Diagnostics;
 using Ionic.Zip;
 
 namespace WinArc
@@ -17,8 +10,8 @@ namespace WinArc
 	public partial class MainWindow : Form
 	{
 		private string path;
-        private string filePath;
-        private int initialFormWidth;
+		private string fileName;
+		private int initialFormWidth;
 		private int initialFormHeight;
 
 		public MainWindow()
@@ -36,8 +29,6 @@ namespace WinArc
 				listView1.Columns[i].Width = listView1.Width/4;
 			}
 		}
-
-		
 
 		private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
 		{
@@ -98,20 +89,20 @@ namespace WinArc
 				TreeNode newSelected = e.Node;
 				path = newSelected.FullPath;
 
-                if (path.Length == 1)
-                {
-                    path = path.Insert(1, @":\");
-                }
-                else
-                {
-                    path = path.Insert(1, ":");
-                }
+				if (path.Length == 1)
+				{
+					path = path.Insert(1, @":\");
+				}
+				else
+				{
+					path = path.Insert(1, ":");
+				}
 				textBox1.Text = path;
 
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-                ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
-            }
-            catch (Exception ex)
+				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+			}
+			catch (Exception ex)
 			{
 			   MessageBox.Show("Problem!!!!\n" + ex.Message);
 			}
@@ -126,27 +117,27 @@ namespace WinArc
 
 				//open entered directory on listView1                
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-                ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
 			}            
 		}      		     	
 			
 		private void listView1_Click(object sender, EventArgs e)
 		{
-            //  listView1.SelectedItems[0].BackColor = Color.Aquamarine;
+			//  listView1.SelectedItems[0].BackColor = Color.Aquamarine;
 
-            /*	string itemName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
-                itemName = itemName.Replace("}", "");*/
+			/*	string itemName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+				itemName = itemName.Replace("}", "");*/
 
-            filePath = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
-            filePath = filePath.Replace("}", "");
+			fileName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+			fileName = fileName.Replace("}", "");
 
-            if (!path[path.Length-1].Equals('\\'))
-            {
-                path = path + '\\';
-            }
+			if (!path[path.Length-1].Equals('\\'))
+			{
+				path = path + '\\';
+			}
 		//	path = path + filePath;
-			textBox1.Text = path+ filePath;
-        }
+			textBox1.Text = path + fileName;
+		}
 
 		private void listView1_DoubleClick(object sender, EventArgs e)
 		{
@@ -156,25 +147,25 @@ namespace WinArc
 
 			path = textBox1.Text;            
 
-          if(path.Contains('.'))//remove from path part with name of file
-            {
-                int index = path.LastIndexOf(@"\");
-                path = path.Remove(index);
-            }
+		  if(path.Contains('.'))//remove from path part with name of file
+			{
+				int index = path.LastIndexOf(@"\");
+				path = path.Remove(index);
+			}
 
-            filePath = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
-            filePath = filePath.Replace("}", "");
+			fileName = listView1.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+			fileName = fileName.Replace("}", "");
 
-            ListViewItem selectedItem = listView1.SelectedItems[0];
+			ListViewItem selectedItem = listView1.SelectedItems[0];
 
 			if (selectedItem.SubItems[1].Text == "File")
-            {
-                System.Diagnostics.Process.Start(path+ filePath);
+			{
+				System.Diagnostics.Process.Start(path+ fileName);
 			}
 			if (selectedItem.SubItems[1].Text == "Directory")
 			{
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-                ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+				ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
 			}
 		}
 
@@ -197,8 +188,8 @@ namespace WinArc
 			this.treeView1.Height += stepHeight;
 			this.treeView1.Width += stepWidth/3;
 
-			this.progressBar1.Top += stepHeight;         
-			this.progressBar1.Width += stepWidth/3;
+			this.progressOfWork.Top += stepHeight;         
+			this.progressOfWork.Width += stepWidth/3;
 
 			textBox1.Width += stepWidth;
 
@@ -214,19 +205,46 @@ namespace WinArc
 		private void buttonCreate_Click(object sender, EventArgs e)
 		{
 			Archivator arc = new Archivator(SaveProgress);
-			ListViewItem selectedItem = listView1.SelectedItems[0];
-			if (selectedItem.SubItems[1].Text == "File")
+			if (path != null)
 			{
-                if (!path[path.Length - 1].Equals('\\'))
-                {
-                    path = path + '\\';
-                }                
+				ListViewItem selectedItem = listView1.SelectedItems[0];
+				if (selectedItem.SubItems[1].Text == "File")
+				{
+					if (!path[path.Length - 1].Equals('\\'))
+					{
+						path = path + '\\';
+					}
 
-                arc.AddFile(path + filePath);
+					arc.AddFile(path + fileName);
+				}
+				else if (selectedItem.SubItems[1].Text == "Directory")
+				{
+					arc.AddFolder(path + "\\");
+				}
 			}
-			else if (selectedItem.SubItems[1].Text == "Directory")
+			else
 			{
-				arc.AddFolder(path + "\\");
+				MessageBox.Show("Please choose file");
+			}
+		}
+
+		private void buttonExtract_Click(object sender, EventArgs e)
+		{
+			if (path != null)
+			{
+				if (fileName.Contains(".zip"))
+				{
+					Archivator arc = new Archivator(ExtractProgress);
+					arc.ExtractFiles(path + fileName);
+				}
+				else
+				{
+					MessageBox.Show("Please choose zip-file");
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please choose file");
 			}
 		}
 
@@ -238,20 +256,28 @@ namespace WinArc
 			}
 			else if (e.EventType == ZipProgressEventType.Saving_EntryBytesRead)
 			{
-				progressBar1.Value = (int)((e.BytesTransferred * 100) / e.TotalBytesToTransfer);
+				progressOfWork.Value = (int)((e.BytesTransferred * 100) / e.TotalBytesToTransfer);
 			}
 			else if (e.EventType == ZipProgressEventType.Saving_Completed)
 			{
 				MessageBox.Show("Done: " + e.ArchiveName);
+				progressOfWork.Value = 0;
 			}
 		}
 
-		private void buttonExtract_Click(object sender, EventArgs e)
+		public void ExtractProgress(object sender, ExtractProgressEventArgs e)
 		{
-			Archivator arc = new Archivator(SaveProgress);
-			arc.ExtractFiles(path);
+			if (e.TotalBytesToTransfer > 0)
+			{
+				progressOfWork.Value = Convert.ToInt32(100 * e.BytesTransferred / e.TotalBytesToTransfer);
+			}
+			else if(e.EventType == ZipProgressEventType.Extracting_AfterExtractAll)
+			{
+				MessageBox.Show("Done: " + e.ArchiveName);
+				progressOfWork.Value = 0;
+			}
 		}
-
+		
 		private void buttonExit_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
@@ -259,39 +285,39 @@ namespace WinArc
 
 		private void buttonRefresh_Click(object sender, EventArgs e)
 		{
-            try
-            {
-                string refreshPath = path;
+			try
+			{
+				string refreshPath = path;
 
-                if (!refreshPath.Equals("") || refreshPath != null)
-                {
-                    /* if (refreshPath[3].Equals('\\'))
-                     {
-                         refreshPath = refreshPath.Remove(3, 1);
-                         MessageBox.Show("refreshPath 1 " + refreshPath);
-                     }*/
+				if (!refreshPath.Equals("") || refreshPath != null)
+				{
+					/* if (refreshPath[3].Equals('\\'))
+					 {
+						 refreshPath = refreshPath.Remove(3, 1);
+						 MessageBox.Show("refreshPath 1 " + refreshPath);
+					 }*/
 
-                    if (refreshPath.Contains('.'))//remove from path part with name of file
-                    {
-                        int index = refreshPath.LastIndexOf('\\');
-                        refreshPath = refreshPath.Remove(index);
-                    }
+					if (refreshPath.Contains('.'))//remove from path part with name of file
+					{
+						int index = refreshPath.LastIndexOf('\\');
+						refreshPath = refreshPath.Remove(index);
+					}
 
-                    textBox1.Text = refreshPath;
+					textBox1.Text = refreshPath;
 
-                    DirectoryInfo nodeDirInfo = new DirectoryInfo(refreshPath);
-                    ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show("Specify the path");
-            }                     
-        }
+					DirectoryInfo nodeDirInfo = new DirectoryInfo(refreshPath);
+					ViewMethods.DisplayFolderContent(nodeDirInfo, listView1);
+				}
+			}
+			catch (NullReferenceException ex)
+			{
+				MessageBox.Show("Specify the path");
+			}                     
+		}
 
-        private void buttonAbout_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("WinArc v1.0.0\nAuthors: Kovalskyi Oleksandr and Luchkova Anhelina", "WinArc");
-        }
-    }
+		private void buttonAbout_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("WinArc v1.0.0\nAuthors: Kovalskiy Oleksandr and Luchkova Anhelina", "WinArc");
+		}
+	}
 }

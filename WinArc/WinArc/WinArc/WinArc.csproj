@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArcCore\Archivator.cs" />
-    <Compile Include="ArcCore\ProgressDelegate.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
