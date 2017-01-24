@@ -114,15 +114,15 @@ namespace WinArc
 			{
 				path = pathBox.Text;
 
-                //open entered directory on folderView                
-                DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
+				//open entered directory on folderView                
+				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
 				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 			}            
 		}      		     	
 			
 		private void folderView_Click(object sender, EventArgs e)
 		{           
-            fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+			fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
 			fileName = fileName.Replace("}", "");
 
 			if (!path[path.Length-1].Equals('\\'))
@@ -135,11 +135,11 @@ namespace WinArc
 
 		private void folderView_DoubleClick(object sender, EventArgs e)
 		{
-            //double click on item
-            //- directory : open this directory on folderView
-            //- file : open file
+			//double click on item
+			//- directory : open this directory on folderView
+			//- file : open file
 
-            path = pathBox.Text;            
+			path = pathBox.Text;            
 
 		  if(path.Contains('.'))//remove from path part with name of file
 			{
@@ -213,7 +213,7 @@ namespace WinArc
 				}
 				else if (selectedItem.SubItems[1].Text == "Directory")
 				{
-					arc.AddFolder(path + "\\");
+					arc.AddFolder(path + fileName +"\\");
 				}
 			}
 			else

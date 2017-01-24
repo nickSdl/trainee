@@ -50,7 +50,7 @@ namespace WinArc.ArchCore
 					zip.SaveProgress += saveProgress;
 					zip.AddDirectory(path);
 					string direct = Path.GetDirectoryName(path);
-					zip.Save(currentPath + ".zip");
+					zip.Save(currentPath  + ".zip");
 				}
 			}
 			else
