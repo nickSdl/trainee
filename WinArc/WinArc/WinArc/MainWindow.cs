@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WinArc.ArchCore;
 using Ionic.Zip;
+using System.Collections.Generic;
 
 namespace WinArc
 {
@@ -135,32 +136,35 @@ namespace WinArc
 
 		private void folderView_DoubleClick(object sender, EventArgs e)
 		{
-			//double click on item
-			//- directory : open this directory on folderView
-			//- file : open file
+            //double click on item
+            //- directory : open this directory on folderView
+            //- file : open file
+            try
+            {
+                path = pathBox.Text;             
+                fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
+                fileName = fileName.Replace("}", "");
+                ListViewItem selectedItem = folderView.SelectedItems[0];
+                if (selectedItem.SubItems[1].Text == "File")
+                {
+                    System.Diagnostics.Process.Start(path );
+                }
+                if (selectedItem.SubItems[1].Text == "Directory")
+                {
+                    if (path.Contains('.'))//remove from path part with name of file
+                    {
+                        int index = path.LastIndexOf(@"\");
+                        path = path.Remove(index);
+                    }
 
-			path = pathBox.Text;            
-
-		  if(path.Contains('.'))//remove from path part with name of file
-			{
-				int index = path.LastIndexOf(@"\");
-				path = path.Remove(index);
-			}
-
-			fileName = folderView.SelectedItems[0].ToString().Replace("ListViewItem: {", "");
-			fileName = fileName.Replace("}", "");
-
-			ListViewItem selectedItem = folderView.SelectedItems[0];
-
-			if (selectedItem.SubItems[1].Text == "File")
-			{
-				System.Diagnostics.Process.Start(path+ fileName);
-			}
-			if (selectedItem.SubItems[1].Text == "Directory")
-			{
-				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
-				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
-			}
+                    DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
+                    ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 		}
 
 		private void MainWindow_ResizeBegin(object sender, EventArgs e)
@@ -198,32 +202,48 @@ namespace WinArc
 
 		private void buttonCreate_Click(object sender, EventArgs e)
 		{
-			Archivator arc = new Archivator(SaveProgress);
-			if (path != null)
-			{
-				ListViewItem selectedItem = folderView.SelectedItems[0];
-				if (selectedItem.SubItems[1].Text == "File")
-				{
-					if (!path[path.Length - 1].Equals('\\'))
-					{
-						path = path + '\\';
-					}
+            try
+            {
+                //  string[] filenames; 
+                List<string> filenames = new List<string>();
+                for (int i = 0; i < folderView.SelectedItems.Count; i++)
+                    filenames.Add(folderView.SelectedItems[i].SubItems[0].Text);
 
-					arc.AddFile(path + fileName);
-				}
-				else if (selectedItem.SubItems[1].Text == "Directory")
-				{
-					arc.AddFolder(path + fileName +"\\");
-				}
-			}
-			else
-			{
-				MessageBox.Show("Please choose file");
-			}
+
+
+                Archivator arc = new Archivator(SaveProgress);
+                if (path != null)
+                {
+                    ListViewItem selectedItem = folderView.SelectedItems[0];
+
+                    if (selectedItem.SubItems[1].Text == "File")
+                    {
+                        if (!path[path.Length - 1].Equals('\\'))
+                        {
+                            path = path + '\\';
+                        }
+
+                        arc.AddFile(path + fileName);
+                    }
+                    else if (selectedItem.SubItems[1].Text == "Directory")
+                    {
+                        arc.AddFolder(path + fileName + "\\");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please choose file");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 		}
 
 		private void buttonExtract_Click(object sender, EventArgs e)
 		{
+            try { 
 			if (path != null)
 			{
 				if (fileName.Contains(".zip"))
@@ -240,7 +260,12 @@ namespace WinArc
 			{
 				MessageBox.Show("Please choose file");
 			}
-		}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
 		public void SaveProgress(object sender, SaveProgressEventArgs e)
 		{
