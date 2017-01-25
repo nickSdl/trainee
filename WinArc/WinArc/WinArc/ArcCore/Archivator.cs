@@ -1,5 +1,6 @@
 ﻿using Ionic.Zip;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace WinArc.ArchCore
@@ -8,6 +9,7 @@ namespace WinArc.ArchCore
 	{
 		private EventHandler<SaveProgressEventArgs> saveProgress;
 		private EventHandler<ExtractProgressEventArgs> extractProgress;
+		private EventHandler<AddProgressEventArgs> addProgress;
 
 		public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
 		{
@@ -19,17 +21,23 @@ namespace WinArc.ArchCore
 			this.extractProgress = extractProgress;
 		}
 
+		public Archivator(EventHandler<AddProgressEventArgs> addProgress)
+		{
+			this.addProgress = addProgress;
+		}
+
 		public void AddFile(string path)
 		{
 			if (path != null)
 			{
 				using (ZipFile zip = new ZipFile())
 				{
+					string direct = Path.GetDirectoryName(path);
+					string fileName = Path.GetFileNameWithoutExtension(path);
 					zip.AddFile(path, "");
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
 					zip.SaveProgress += saveProgress;
-					string direct = Path.GetDirectoryName(path);
-					string fileName = Path.GetFileNameWithoutExtension(path);
+
 					zip.Save(direct + "\\" + fileName + ".zip");
 				}
 			}
@@ -51,6 +59,25 @@ namespace WinArc.ArchCore
 					zip.AddDirectory(path);
 					string direct = Path.GetDirectoryName(path);
 					zip.Save(currentPath  + ".zip");
+				}
+			}
+			else
+			{
+				throw new ArgumentNullException("Wrong path to file");
+			}
+		}
+
+		public void AddMultipleFiles(string path, string item)
+		{
+			if (path != null)
+			{
+				using (ZipFile zip = ZipFile.Read(path))
+				{
+					zip.AddProgress += addProgress;
+					string fileName = Path.GetFileNameWithoutExtension(item);
+					zip.UpdateItem(item, fileName);
+
+					zip.Save();
 				}
 			}
 			else
