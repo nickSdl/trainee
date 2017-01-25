@@ -37,7 +37,6 @@ namespace WinArc.ArchCore
 					zip.AddFile(path, "");
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
 					zip.SaveProgress += saveProgress;
-
 					zip.Save(direct + "\\" + fileName + ".zip");
 				}
 			}
@@ -75,7 +74,7 @@ namespace WinArc.ArchCore
 				{
 					zip.AddProgress += addProgress;
 					string fileName = Path.GetFileNameWithoutExtension(item);
-					zip.UpdateItem(item, fileName);
+					zip.UpdateItem(item, "");
 
 					zip.Save();
 				}

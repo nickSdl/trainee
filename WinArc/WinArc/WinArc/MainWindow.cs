@@ -14,7 +14,7 @@ namespace WinArc
 		private int initialFormWidth;
 		private int initialFormHeight;
 		private int files = 0;
-	 	private int totalFiles = 0;
+		private int totalFiles = 0;
 
 		public MainWindow()
 		{
@@ -149,12 +149,12 @@ namespace WinArc
 				{
 					System.Diagnostics.Process.Start(path);
 
-                    int index = path.LastIndexOf(@"\");
-                    path = path.Remove(index);
-                }
+					int index = path.LastIndexOf(@"\");
+					path = path.Remove(index);
+				}
 				if (selectedItem.SubItems[1].Text == "Directory")
 				{
-					    //remove from path part with name of file
+						//remove from path part with name of file
 					
 						int index = path.LastIndexOf(@"\");
 						path = path.Remove(index);
@@ -297,7 +297,7 @@ namespace WinArc
 			{
 				progressOfWork.Value = Convert.ToInt32(100 * e.BytesTransferred / e.TotalBytesToTransfer);
 			}
-			else if(e.EventType == ZipProgressEventType.Extracting_AfterExtractAll)
+			if (e.EventType == ZipProgressEventType.Extracting_AfterExtractEntry)
 			{
 				MessageBox.Show("Extracting Completed: " + e.ArchiveName);
 				progressOfWork.Value = 0;
@@ -316,7 +316,7 @@ namespace WinArc
 					this.progressOfWork.Update();
 				}
 			}
-			if(files == totalFiles)
+			if (files == totalFiles)
 			{
 				MessageBox.Show("Completed: " + e.ArchiveName);
 				progressOfWork.Value = 0;
