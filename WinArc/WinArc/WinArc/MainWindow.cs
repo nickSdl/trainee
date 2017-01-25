@@ -147,15 +147,18 @@ namespace WinArc
 				ListViewItem selectedItem = folderView.SelectedItems[0];
 				if (selectedItem.SubItems[1].Text == "File")
 				{
-					System.Diagnostics.Process.Start(path );
-				}
+					System.Diagnostics.Process.Start(path);
+
+                    int index = path.LastIndexOf(@"\");
+                    path = path.Remove(index);
+                }
 				if (selectedItem.SubItems[1].Text == "Directory")
 				{
-					if (path.Contains('.'))//remove from path part with name of file
-					{
+					    //remove from path part with name of file
+					
 						int index = path.LastIndexOf(@"\");
 						path = path.Remove(index);
-					}
+					
 
 					DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
 					ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
