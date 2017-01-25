@@ -70,6 +70,8 @@
             this.buttonCreate.Text = "Create";
             this.buttonCreate.UseVisualStyleBackColor = true;
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonCreate.Click += new System.EventHandler(this.buttonRefresh_Click);
+            this.buttonCreate.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonExtract
             // 
@@ -80,6 +82,7 @@
             this.buttonExtract.Text = "Extract";
             this.buttonExtract.UseVisualStyleBackColor = true;
             this.buttonExtract.Click += new System.EventHandler(this.buttonExtract_Click);
+            this.buttonExtract.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonAbout
             // 
