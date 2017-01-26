@@ -11,19 +11,25 @@ namespace WinArc.ArchCore
 		private EventHandler<ExtractProgressEventArgs> extractProgress;
 		private EventHandler<AddProgressEventArgs> addProgress;
 
-		public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
-		{
-			this.saveProgress = saveProgress;
-		}
+		//public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
+		//{
+		//	this.saveProgress = saveProgress;
+		//}
 
 		public Archivator(EventHandler<ExtractProgressEventArgs> extractProgress)
 		{
 			this.extractProgress = extractProgress;
 		}
 
-		public Archivator(EventHandler<AddProgressEventArgs> addProgress)
+		//public Archivator(EventHandler<AddProgressEventArgs> addProgress)
+		//{
+		//	this.addProgress = addProgress;
+		//}
+
+		public Archivator(EventHandler<AddProgressEventArgs> addProgress, EventHandler<SaveProgressEventArgs> saveProgress)
 		{
 			this.addProgress = addProgress;
+			this.saveProgress = saveProgress;
 		}
 
 		public void AddFile(string path)

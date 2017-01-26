@@ -154,13 +154,13 @@ namespace WinArc
 				}
 				if (selectedItem.SubItems[1].Text == "Directory")
 				{
-                    //remove from path part with name of file
-                    // if (path[path.Length - 4] == '.' || path[path.Length - 4] == '.')
-                    if ( File.Exists(path))
-                    {
-                        int index = path.LastIndexOf(@"\");
-                        path = path.Remove(index);
-                    }
+					//remove from path part with name of file
+					// if (path[path.Length - 4] == '.' || path[path.Length - 4] == '.')
+					if ( File.Exists(path))
+					{
+						int index = path.LastIndexOf(@"\");
+						path = path.Remove(index);
+					}
 
 					DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
 					ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
@@ -209,7 +209,7 @@ namespace WinArc
 		{
 			try
 			{
-				Archivator arc = new Archivator(AddToExistArc);
+				Archivator arc = new Archivator(AddToExistArc, SaveProgress);
 				if (path != null)
 				{
 					totalFiles = folderView.SelectedItems.Count - 1; ;
