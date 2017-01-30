@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+
+
 namespace WinArc
 {
    public static class ViewMethods
@@ -13,7 +18,8 @@ namespace WinArc
         public static void  GetDrives(TreeView treeView)
         {
             try
-            {
+            {               
+
                 //get a list of the drives
                 string[] drives = Environment.GetLogicalDrives();
 
@@ -21,7 +27,7 @@ namespace WinArc
                 {
                     DriveInfo di = new DriveInfo(drive);
                     int driveImage;
-
+                    
                     switch (di.DriveType)    //set the drive's icon
                     {
                         case DriveType.CDRom:
@@ -39,7 +45,7 @@ namespace WinArc
                         default:
                             driveImage = 2;
                             break;
-                    }
+                    }                    
 
                     TreeNode node = new TreeNode(drive.Substring(0, 1), driveImage, driveImage);
                     node.Tag = drive;
