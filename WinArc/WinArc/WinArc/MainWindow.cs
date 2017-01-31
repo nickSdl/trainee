@@ -5,10 +5,6 @@ using System.Windows.Forms;
 using WinArc.ArchCore;
 using Ionic.Zip;
 
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-
 namespace WinArc
 {
 	public partial class MainWindow : Form
@@ -28,9 +24,9 @@ namespace WinArc
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
 			ViewMethods.GetDrives(folderTree);
-            
-            int numberOfComumns = folderView.Columns.Count;
-            for (int i = 0; i < numberOfComumns; i++)
+			
+			int numberOfComumns = folderView.Columns.Count;
+			for (int i = 0; i < numberOfComumns; i++)
 			{
 				folderView.Columns[i].Width = folderView.Width/numberOfComumns;
 			}
@@ -47,15 +43,15 @@ namespace WinArc
 					//get the list of sub direcotires
 					string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
 
-                    //add files of rootdirectory-----------------------------------------------------------------------
-                    DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
-                    foreach (var file in rootDir.GetFiles())
-                    {
-                        TreeNode n = new TreeNode(file.Name, 13, 13);
-                        e.Node.Nodes.Add(n);
-                    }//--------------------------------------------------------------------------------------------------
+					//add files of rootdirectory-----------------------------------------------------------------------
+					DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
+					foreach (var file in rootDir.GetFiles())
+					{
+						TreeNode n = new TreeNode(file.Name, 13, 13);
+						e.Node.Nodes.Add(n);
+					}//--------------------------------------------------------------------------------------------------
 
-                    foreach (string dir in dirs)
+					foreach (string dir in dirs)
 					{
 						DirectoryInfo di = new DirectoryInfo(dir);
 						TreeNode node = new TreeNode(di.Name, 0, 1);
@@ -312,7 +308,7 @@ namespace WinArc
 			{
 				progressOfWork.Value = Convert.ToInt32(100 * e.BytesTransferred / e.TotalBytesToTransfer);
 			}
-			if (e.EventType == ZipProgressEventType.Extracting_AfterExtractEntry)
+			if (e.EventType == ZipProgressEventType.Extracting_AfterExtractAll)
 			{
 				MessageBox.Show("Extracting Completed: " + e.ArchiveName);
 				progressOfWork.Value = 0;

@@ -59,10 +59,10 @@ namespace WinArc.ArchCore
 				using (ZipFile zip = new ZipFile())
 				{
 					string currentPath = Path.GetDirectoryName(path);
+					string folderName = Path.GetFileName(currentPath);
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
 					zip.SaveProgress += saveProgress;
-					zip.AddDirectory(path);
-					string direct = Path.GetDirectoryName(path);
+					zip.AddDirectory(path, folderName);
 					zip.Save(currentPath  + ".zip");
 				}
 			}
@@ -79,9 +79,8 @@ namespace WinArc.ArchCore
 				using (ZipFile zip = ZipFile.Read(path))
 				{
 					zip.AddProgress += addProgress;
-					string fileName = Path.GetFileNameWithoutExtension(item);
-					zip.UpdateItem(item, "");
-
+					string itemName = Path.GetFileNameWithoutExtension(item);
+					zip.UpdateItem(item, itemName);
 					zip.Save();
 				}
 			}
@@ -107,10 +106,11 @@ namespace WinArc.ArchCore
 				{
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
 					zip.ExtractProgress += extractProgress;
-					foreach (ZipEntry e in zip)
-					{
-						e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
-					}
+					zip.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
+					//foreach (ZipEntry e in zip)
+					//{
+					//	e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+					//}
 				}
 			}
 			else
