@@ -33,8 +33,8 @@ namespace WinArc
 		}
 
 		private void folderTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
-		{
-			if (e.Node.Nodes.Count > 0)
+		{        
+            if (e.Node.Nodes.Count > 0)
 			{
 				if (e.Node.Nodes[0].Text == "..." && e.Node.Nodes[0].Tag == null)
 				{
@@ -43,13 +43,13 @@ namespace WinArc
 					//get the list of sub direcotires
 					string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
 
-					//add files of rootdirectory-----------------------------------------------------------------------
+                    //add files of rootdirectory                    
 					DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
 					foreach (var file in rootDir.GetFiles())
 					{
-						TreeNode n = new TreeNode(file.Name, 13, 13);
+						TreeNode n = new TreeNode(file.Name, 7, 7);
 						e.Node.Nodes.Add(n);
-					}//--------------------------------------------------------------------------------------------------
+					}
 
 					foreach (string dir in dirs)
 					{
@@ -67,7 +67,7 @@ namespace WinArc
 
 							foreach (var file in di.GetFiles())
 							{
-								TreeNode n = new TreeNode(file.Name, 13, 13);
+								TreeNode n = new TreeNode(file.Name, 7, 7);
 								node.Nodes.Add(n);
 							}
 
@@ -75,8 +75,8 @@ namespace WinArc
 						catch (UnauthorizedAccessException)
 						{
 							//display a locked folder icon
-							node.ImageIndex = 12;
-							node.SelectedImageIndex = 12;
+							node.ImageIndex = 6;
+							node.SelectedImageIndex = 6;
 						}
 						catch (Exception ex)
 						{
@@ -90,6 +90,7 @@ namespace WinArc
 					}
 				}
 			}
+            
 		}             	
 
 		private void folderTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

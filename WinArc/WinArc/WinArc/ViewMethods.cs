@@ -34,13 +34,13 @@ namespace WinArc
                             driveImage = 3;
                             break;
                         case DriveType.Network:
-                            driveImage = 6;
+                            driveImage = 4;
                             break;
                         case DriveType.NoRootDirectory:
-                            driveImage = 8;
+                            driveImage = 5;
                             break;
                         case DriveType.Unknown:
-                            driveImage = 8;
+                            driveImage = 5;
                             break;
                         default:
                             driveImage = 2;
