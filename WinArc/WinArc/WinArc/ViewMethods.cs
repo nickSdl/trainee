@@ -26,33 +26,33 @@ namespace WinArc
 
                 foreach (string drive in drives)
                 {
-                    DriveInfo di = new DriveInfo(drive);
-                    int driveImage;
+                    DriveInfo currentDrive = new DriveInfo(drive);
+                    int driveIcon;
 
 					//UNDONE: 2.1.Remove comments.
-					switch (di.DriveType)    //set the drive's icon
+					switch (currentDrive.DriveType)    //set the drive's icon
                     {
                         case DriveType.CDRom:
-                            driveImage = 3;
+                            driveIcon = 3;
                             break;
                         case DriveType.Network:
-                            driveImage = 4;
+                            driveIcon = 4;
                             break;
                         case DriveType.NoRootDirectory:
-                            driveImage = 5;
+                            driveIcon = 5;
                             break;
                         case DriveType.Unknown:
-                            driveImage = 5;
+                            driveIcon = 5;
                             break;
                         default:
-                            driveImage = 2;
+                            driveIcon = 2;
                             break;
                     }                    
 
-                    TreeNode node = new TreeNode(drive.Substring(0, 1), driveImage, driveImage); //TODO: 7.6 change numbers for variables.
+                    TreeNode node = new TreeNode(drive.Substring(0, 1), driveIcon, driveIcon); //TODO: 7.6 change numbers for variables.
 					node.Tag = drive;
 
-                    if (di.IsReady == true)
+                    if (currentDrive.IsReady == true)
                         node.Nodes.Add("...");
 
                     treeView.Nodes.Add(node);
@@ -65,22 +65,23 @@ namespace WinArc
             }
         }
 
-        public static void GetDirectories(DirectoryInfo[] subDirs, TreeNode nodeToAddTo) //TODO: 4. Rename "nodeToAddTo".
+        public static void GetDirectories(DirectoryInfo[] subDirs, TreeNode rootNode) //TODO: 4. Rename "nodeToAddTo".  DONE
 		{
-			//TODO: 4.1. Rename "aNode".
-			TreeNode aNode;
+			//TODO: 4.1. Rename "aNode".    DONE
+			TreeNode currentNode;
             DirectoryInfo[] subSubDirs;
             foreach (DirectoryInfo subDir in subDirs)
 			{
-                aNode = new TreeNode(subDir.Name, 0, 0); //TODO: 7.7 change numbers for variables.
-				aNode.Tag = subDir;
-                aNode.ImageKey = "folder";
+                int driveIcon = 0;
+                currentNode = new TreeNode(subDir.Name, driveIcon, driveIcon); //TODO: 7.7 change numbers for variables.    DONE
+                currentNode.Tag = subDir;
+                currentNode.ImageKey = "folder";
                 subSubDirs = subDir.GetDirectories();
                 if (subSubDirs.Length != 0)
                 {
-                    GetDirectories(subSubDirs, aNode);
+                    GetDirectories(subSubDirs, currentNode);
                 }
-                nodeToAddTo.Nodes.Add(aNode);
+                rootNode.Nodes.Add(currentNode);
             }
         }
 

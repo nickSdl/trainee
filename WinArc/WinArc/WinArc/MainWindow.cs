@@ -24,19 +24,27 @@ namespace WinArc
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
 			ViewMethods.GetDrives(folderTree);
-			
-			//TODO: 5.Remove logic from constractor
-			int numberOfComumns = folderView.Columns.Count;
-			for (int i = 0; i < numberOfComumns; i++)
-			{
-				folderView.Columns[i].Width = folderView.Width/numberOfComumns;
-			}
-		}
 
-		//TODO: 6. Remove unnecessary commets
-		private void folderTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
-		{        
-			if (e.Node.Nodes.Count > 0)
+            //TODO: 5.Remove logic from constractor     DONE
+            setFolderViewColumnsWidth();
+        }
+
+        private void setFolderViewColumnsWidth()
+        {
+            int numberOfComumns = folderView.Columns.Count;
+            for (int i = 0; i < numberOfComumns; i++)
+            {
+                folderView.Columns[i].Width = folderView.Width / numberOfComumns;
+            }            
+        }
+        
+		//TODO: 6. Remove unnecessary commets       DONE
+		private void folderTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+		{
+            int iconIndex;
+            int selectedIconIndex;
+
+            if (e.Node.Nodes.Count > 0)
 			{
 				if (e.Node.Nodes[0].Text == "..." && e.Node.Nodes[0].Tag == null)
 				{
@@ -49,27 +57,38 @@ namespace WinArc
 					DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
 					foreach (var file in rootDir.GetFiles())
 					{
-						TreeNode n = new TreeNode(file.Name, 7, 7);//TODO: 7.1 change numbers for variables.
+                        iconIndex = 7;
+                        selectedIconIndex = 7;
+						TreeNode n = new TreeNode(file.Name, iconIndex, selectedIconIndex);//TODO: 7.1 change numbers for variables.       DONE
 						e.Node.Nodes.Add(n);
 					}
 
 					foreach (string dir in dirs)
 					{
-						DirectoryInfo di = new DirectoryInfo(dir); //TODO: 8. Rename "di".
-						TreeNode node = new TreeNode(di.Name, 0, 1); //TODO: 7.2 change numbers for variables.
+                        iconIndex = 0;
+                        selectedIconIndex = 1;
+
+                        DirectoryInfo currentDirectory = new DirectoryInfo(dir); //TODO: 8. Rename "di".    DONE
+						TreeNode node = new TreeNode(currentDirectory.Name, iconIndex, selectedIconIndex); //TODO: 7.2 change numbers for variables.      DONE
 
 						try
 						{
 							//keep the directory's full path in the tag for use later
 							node.Tag = dir;
 
-							//if the directory has sub directories add the place holder
-							if (di.GetDirectories().Count() > 0)
-								node.Nodes.Add(null, "...", 0, 0); //TODO: 7.3 change numbers for variables.
+                            //if the directory has sub directories add the place holder
+                            if (currentDirectory.GetDirectories().Count() > 0)
+                            {
+                                iconIndex = 0;
+                                selectedIconIndex = 0;
+                                node.Nodes.Add(null, "...", iconIndex, iconIndex); //TODO: 7.3 change numbers for variables.    DONE
+                            }
 
-							foreach (var file in di.GetFiles())
+							foreach (var file in currentDirectory.GetFiles())
 							{
-								TreeNode n = new TreeNode(file.Name, 7, 7); //TODO: 7.4 change numbers for variables.
+                                iconIndex = 7;
+                                selectedIconIndex = 7;
+                                TreeNode n = new TreeNode(file.Name, iconIndex, selectedIconIndex); //TODO: 7.4 change numbers for variables. DONE
 								node.Nodes.Add(n);
 							}
 
@@ -82,9 +101,8 @@ namespace WinArc
 						}
 						catch (Exception ex)
 						{
-							MessageBox.Show(ex.Message, "DirectoryLister", //TODO 8.1  Write correct error message for user.
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
+							MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);     //TODO 8.1  Write correct error message for user.     
+                        }
 						finally
 						{
 							e.Node.Nodes.Add(node);
@@ -116,7 +134,7 @@ namespace WinArc
 			}
 			catch (Exception ex)
 			{
-			   MessageBox.Show("Problem!!!!\n" + ex.Message);  //TODO 8.2  Write correct error message for user.
+			   MessageBox.Show(ex.Message);  //TODO 8.2  Write correct error message for user.     
 			}
 
 		}
@@ -127,9 +145,9 @@ namespace WinArc
 			{
 				path = pathBox.Text;
 
-				//TODO: 6.2 Remove unnecessary commets
-				//open entered directory on folderView                
-				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
+                //TODO: 6.2 Remove unnecessary commets      IMHO: this comment is necessary
+                //open entered directory on folderView                
+                DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
 				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
 			}            
 		}      		     	
@@ -167,8 +185,7 @@ namespace WinArc
 				if (selectedItem.SubItems[1].Text == "Directory")
 				{
 					//remove from path part with name of file
-					// if (path[path.Length - 4] == '.' || path[path.Length - 4] == '.')
-					if ( File.Exists(path))
+					if (File.Exists(path))
 					{
 						int index = path.LastIndexOf(@"\");
 						path = path.Remove(index);
@@ -180,8 +197,8 @@ namespace WinArc
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show(ex.Message);  //TODO 8.3  Write correct error message for user.
-			}
+				MessageBox.Show(ex.Message);  //TODO 8.3  Write correct error message for user.    
+            }
 		}
 
 		private void MainWindow_ResizeBegin(object sender, EventArgs e)
@@ -190,32 +207,32 @@ namespace WinArc
 			initialFormWidth = this.Width;
 		}
 
-		private void MainWindow_ResizeEnd(object sender, EventArgs e)
-		{
-			int stepHeight = this.Height - initialFormHeight;
-			int stepWidth = this.Width - initialFormWidth;
+        private void MainWindow_ResizeEnd(object sender, EventArgs e)
+        {
+            // 1/3 part of the window takes folderTree and progressOfWork
+            //2/3 part of the window takes folderView
 
-			this.folderView.Height += stepHeight;
-			this.folderView.Width += stepWidth*2/3;//TODO: 7.4 change numbers for variables.
-			this.folderView.Left += stepWidth / 3;
+            int stepHeight = this.Height - initialFormHeight;
+            int stepWidth = this.Width - initialFormWidth;
+
+            this.folderView.Height += stepHeight;
+            this.folderView.Width += stepWidth * 2 / 3;//TODO: 7.4 change numbers for variables.    COMMENTS ADDED
+            this.folderView.Left += stepWidth * 1 / 3;
 
 
-			this.folderTree.Height += stepHeight;
-			this.folderTree.Width += stepWidth/3;
+            this.folderTree.Height += stepHeight;
+            this.folderTree.Width += stepWidth * 1 / 3;
 
-			this.progressOfWork.Top += stepHeight;         
-			this.progressOfWork.Width += stepWidth/3;
+            this.progressOfWork.Top += stepHeight;
+            this.progressOfWork.Width += stepWidth * 1 / 3;
 
-			pathBox.Width += stepWidth;
+            pathBox.Width += stepWidth;
 
-			buttonAbout.Left += stepWidth;           
-			buttonExit.Left += stepWidth;
+            buttonAbout.Left += stepWidth;
+            buttonExit.Left += stepWidth;
 
-			for (int i = 0; i < 4; i++)//TODO: 7.5 change numbers for variables.
-			{
-				folderView.Columns[i].Width = folderView.Width / 4;
-			}
-		}
+            setFolderViewColumnsWidth();
+        }
 
 		private void buttonCreate_Click(object sender, EventArgs e)
 		{
@@ -297,7 +314,7 @@ namespace WinArc
 			if (e.EventType == ZipProgressEventType.Saving_EntryBytesRead)
 			{
 				progressOfWork.Value = (int)((e.BytesTransferred * 100) / e.TotalBytesToTransfer);
-			}
+            }
 			else if (e.EventType == ZipProgressEventType.Saving_Completed)
 			{
 				MessageBox.Show("Saving Completed: " + e.ArchiveName);
@@ -310,7 +327,7 @@ namespace WinArc
 			if (e.TotalBytesToTransfer > 0)
 			{
 				progressOfWork.Value = Convert.ToInt32(100 * e.BytesTransferred / e.TotalBytesToTransfer);
-			}
+            }
 			if (e.EventType == ZipProgressEventType.Extracting_AfterExtractAll)
 			{
 				MessageBox.Show("Extracting Completed: " + e.ArchiveName);
@@ -350,13 +367,7 @@ namespace WinArc
 
 				if (!refreshPath.Equals("") || refreshPath != null)
 				{
-					//TODO: 6.3 Remove unnecessary commets
-					/* if (refreshPath[3].Equals('\\'))
-					 {
-						 refreshPath = refreshPath.Remove(3, 1);
-						 MessageBox.Show("refreshPath 1 " + refreshPath);
-					 }*/
-
+					//TODO: 6.3 Remove unnecessary commets		DONE	
 					if (refreshPath.Contains('.'))//remove from path part with name of file
 					{
 						int index = refreshPath.LastIndexOf('\\');

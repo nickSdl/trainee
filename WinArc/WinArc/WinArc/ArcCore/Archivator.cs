@@ -11,17 +11,18 @@ namespace WinArc.ArchCore
 		private EventHandler<ExtractProgressEventArgs> extractProgress;
 		private EventHandler<AddProgressEventArgs> addProgress;
 
-		//public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)
-		//{
-		//	this.saveProgress = saveProgress;
-		//}
+        //public Archivator(EventHandler<SaveProgressEventArgs> saveProgress)       //TODO: 1 delete unnecessary code
+        //{
+        //	this.saveProgress = saveProgress;
+        //}
 
-		public Archivator(EventHandler<ExtractProgressEventArgs> extractProgress)
+        public Archivator(EventHandler<ExtractProgressEventArgs> extractProgress)
 		{
 			this.extractProgress = extractProgress;
 		}
 
-		//public Archivator(EventHandler<AddProgressEventArgs> addProgress)
+		//public Archivator(EventHandler<AddProgressEventArgs> addProgress)         //TODO: 2 delete unnecessary code
+        //{
 		//{
 		//	this.addProgress = addProgress;
 		//}
@@ -68,8 +69,8 @@ namespace WinArc.ArchCore
 			}
 			else
 			{
-				throw new ArgumentNullException("Wrong path to file");
-			}
+				throw new ArgumentNullException("Wrong path to file"); 
+            }
 		}
 
 		public void AddMultipleFiles(string path, string item)
@@ -107,12 +108,12 @@ namespace WinArc.ArchCore
 					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.Default;
 					zip.ExtractProgress += extractProgress;
 					zip.ExtractAll(extractPath, ExtractExistingFileAction.OverwriteSilently);
-					//foreach (ZipEntry e in zip)
-					//{
-					//	e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
-					//}
-				}
-			}
+                    //foreach (ZipEntry e in zip)
+                    //{
+                    //	e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);        //TODO: 3 delete unnecessary code
+                    //}
+                }
+            }
 			else
 			{
 				throw new ArgumentNullException("Wrong path to file");
