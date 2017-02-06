@@ -1,4 +1,5 @@
 ﻿using System;
+//UNDONE: 1.Remove unnecessary usings. 
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,17 +19,18 @@ namespace WinArc
         public static void  GetDrives(TreeView treeView)
         {
             try
-            {               
-
-                //get a list of the drives
-                string[] drives = Environment.GetLogicalDrives();
+            {
+				//UNDONE: 2.Remove comments. "Well written code is self documenting".
+				//get a list of the drives
+				string[] drives = Environment.GetLogicalDrives();
 
                 foreach (string drive in drives)
                 {
                     DriveInfo di = new DriveInfo(drive);
                     int driveImage;
-                    
-                    switch (di.DriveType)    //set the drive's icon
+
+					//UNDONE: 2.1.Remove comments.
+					switch (di.DriveType)    //set the drive's icon
                     {
                         case DriveType.CDRom:
                             driveImage = 3;
@@ -47,8 +49,8 @@ namespace WinArc
                             break;
                     }                    
 
-                    TreeNode node = new TreeNode(drive.Substring(0, 1), driveImage, driveImage);
-                    node.Tag = drive;
+                    TreeNode node = new TreeNode(drive.Substring(0, 1), driveImage, driveImage); //TODO: 7.6 change numbers for variables.
+					node.Tag = drive;
 
                     if (di.IsReady == true)
                         node.Nodes.Add("...");
@@ -63,14 +65,15 @@ namespace WinArc
             }
         }
 
-        public static void GetDirectories(DirectoryInfo[] subDirs, TreeNode nodeToAddTo)
-        {
-            TreeNode aNode;
+        public static void GetDirectories(DirectoryInfo[] subDirs, TreeNode nodeToAddTo) //TODO: 4. Rename "nodeToAddTo".
+		{
+			//TODO: 4.1. Rename "aNode".
+			TreeNode aNode;
             DirectoryInfo[] subSubDirs;
             foreach (DirectoryInfo subDir in subDirs)
-            {
-                aNode = new TreeNode(subDir.Name, 0, 0);
-                aNode.Tag = subDir;
+			{
+                aNode = new TreeNode(subDir.Name, 0, 0); //TODO: 7.7 change numbers for variables.
+				aNode.Tag = subDir;
                 aNode.ImageKey = "folder";
                 subSubDirs = subDir.GetDirectories();
                 if (subSubDirs.Length != 0)
@@ -120,7 +123,7 @@ namespace WinArc
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); //TODO 4.  Write correct error message for user.
             }
 
         }

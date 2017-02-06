@@ -25,6 +25,7 @@ namespace WinArc
 		{
 			ViewMethods.GetDrives(folderTree);
 			
+			//TODO: 5.Remove logic from constractor
 			int numberOfComumns = folderView.Columns.Count;
 			for (int i = 0; i < numberOfComumns; i++)
 			{
@@ -32,9 +33,10 @@ namespace WinArc
 			}
 		}
 
+		//TODO: 6. Remove unnecessary commets
 		private void folderTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)//DisplayTreeView
 		{        
-            if (e.Node.Nodes.Count > 0)
+			if (e.Node.Nodes.Count > 0)
 			{
 				if (e.Node.Nodes[0].Text == "..." && e.Node.Nodes[0].Tag == null)
 				{
@@ -43,18 +45,18 @@ namespace WinArc
 					//get the list of sub direcotires
 					string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
 
-                    //add files of rootdirectory                    
+					//add files of rootdirectory                    
 					DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
 					foreach (var file in rootDir.GetFiles())
 					{
-						TreeNode n = new TreeNode(file.Name, 7, 7);
+						TreeNode n = new TreeNode(file.Name, 7, 7);//TODO: 7.1 change numbers for variables.
 						e.Node.Nodes.Add(n);
 					}
 
 					foreach (string dir in dirs)
 					{
-						DirectoryInfo di = new DirectoryInfo(dir);
-						TreeNode node = new TreeNode(di.Name, 0, 1);
+						DirectoryInfo di = new DirectoryInfo(dir); //TODO: 8. Rename "di".
+						TreeNode node = new TreeNode(di.Name, 0, 1); //TODO: 7.2 change numbers for variables.
 
 						try
 						{
@@ -63,11 +65,11 @@ namespace WinArc
 
 							//if the directory has sub directories add the place holder
 							if (di.GetDirectories().Count() > 0)
-								node.Nodes.Add(null, "...", 0, 0);
+								node.Nodes.Add(null, "...", 0, 0); //TODO: 7.3 change numbers for variables.
 
 							foreach (var file in di.GetFiles())
 							{
-								TreeNode n = new TreeNode(file.Name, 7, 7);
+								TreeNode n = new TreeNode(file.Name, 7, 7); //TODO: 7.4 change numbers for variables.
 								node.Nodes.Add(n);
 							}
 
@@ -80,7 +82,7 @@ namespace WinArc
 						}
 						catch (Exception ex)
 						{
-							MessageBox.Show(ex.Message, "DirectoryLister",
+							MessageBox.Show(ex.Message, "DirectoryLister", //TODO 8.1  Write correct error message for user.
 								MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
 						finally
@@ -90,7 +92,6 @@ namespace WinArc
 					}
 				}
 			}
-            
 		}             	
 
 		private void folderTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -115,7 +116,7 @@ namespace WinArc
 			}
 			catch (Exception ex)
 			{
-			   MessageBox.Show("Problem!!!!\n" + ex.Message);
+			   MessageBox.Show("Problem!!!!\n" + ex.Message);  //TODO 8.2  Write correct error message for user.
 			}
 
 		}
@@ -126,6 +127,7 @@ namespace WinArc
 			{
 				path = pathBox.Text;
 
+				//TODO: 6.2 Remove unnecessary commets
 				//open entered directory on folderView                
 				DirectoryInfo nodeDirInfo = new DirectoryInfo(path);
 				ViewMethods.DisplayFolderContent(nodeDirInfo, folderView);
@@ -178,7 +180,7 @@ namespace WinArc
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message);  //TODO 8.3  Write correct error message for user.
 			}
 		}
 
@@ -194,7 +196,7 @@ namespace WinArc
 			int stepWidth = this.Width - initialFormWidth;
 
 			this.folderView.Height += stepHeight;
-			this.folderView.Width += stepWidth*2/3;
+			this.folderView.Width += stepWidth*2/3;//TODO: 7.4 change numbers for variables.
 			this.folderView.Left += stepWidth / 3;
 
 
@@ -209,7 +211,7 @@ namespace WinArc
 			buttonAbout.Left += stepWidth;           
 			buttonExit.Left += stepWidth;
 
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++)//TODO: 7.5 change numbers for variables.
 			{
 				folderView.Columns[i].Width = folderView.Width / 4;
 			}
@@ -348,6 +350,7 @@ namespace WinArc
 
 				if (!refreshPath.Equals("") || refreshPath != null)
 				{
+					//TODO: 6.3 Remove unnecessary commets
 					/* if (refreshPath[3].Equals('\\'))
 					 {
 						 refreshPath = refreshPath.Remove(3, 1);
